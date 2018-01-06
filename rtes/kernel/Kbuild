@@ -1,0 +1,4 @@
+obj-y += calc.o
+obj-y += ps.o
+obj-y += sysfsmod.o
+obj-y += rms.o

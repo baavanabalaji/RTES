@@ -1,0 +1,1391 @@
+#include<linux/reservation.h>
+#include<linux/ubtest_values.h>
+
+static DEFINE_SPINLOCK(thread_lock);
+static DEFINE_SPINLOCK(admit_lock);
+
+atomic_t rcount = ATOMIC_INIT(0);
+// struct siginfo budget_exceed_signal;
+
+reserve_t *r_head[4] = { NULL };
+u_reserve_t *ulist_head[4] = { NULL };
+
+int nextfit_cpuid = 0;
+int max_bins = 0;
+
+typedef struct rtes_cpustruct{
+    int cpuid;
+    char cpu_util[64];
+    int thread_no;
+} cpustruct_t;
+
+cpustruct_t admit_test[4]={ {0,"0",0}, {1,"0",0}, {2,"0",0}, {3,"0",0}};
+
+reserve_t *get_rhead_sysfs(int i){
+    return r_head[i];
+}
+
+u_reserve_t *create_ulist_node(reserve_t *node){
+   
+	u_reserve_t *u_node; 
+	unsigned long fl;
+
+    spin_lock_irqsave(&thread_lock,fl);
+
+    u_node = (u_reserve_t *) kmalloc(sizeof(u_reserve_t),GFP_KERNEL);
+        
+    u_node->tid = node->thread->pid;
+    u_node->C.tv_sec = node->C.tv_sec;
+    u_node->C.tv_nsec = node->C.tv_nsec;
+    u_node->T.tv_sec = node->T.tv_sec;
+    u_node->T.tv_nsec = node->T.tv_nsec;
+    u_node->cpuid = node->cpuid;
+    u_node->prio = node->prio;
+    strcpy(u_node->comm, node->thread->comm);
+    strcpy(u_node->util, node->util);
+    u_node->next = NULL;
+	
+    spin_unlock_irqrestore(&thread_lock,fl);
+
+    return u_node;
+}
+
+void insert_ulist_node(u_reserve_t *newNode, int cpuid)
+{
+    u_reserve_t *temp, *prev;
+    unsigned long fl;
+
+    printk(KERN_INFO "RMS: ulist insert\n");
+
+    spin_lock_irqsave(&thread_lock,fl);
+    
+    temp = ulist_head[cpuid];
+    prev = NULL;
+    
+    if(temp == NULL){
+        newNode->next = NULL;
+        ulist_head[cpuid] = newNode;
+
+        spin_unlock_irqrestore(&thread_lock,fl); 
+        return;
+    }
+    
+    while(temp != NULL){
+       
+        if (timespec_compare(&(temp->T),&(newNode->T)) > 0)
+            break;
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if(temp == ulist_head[cpuid]){
+        newNode->next = ulist_head[cpuid];
+        ulist_head[cpuid] = newNode;
+    }else{
+        newNode->next = prev->next;
+        prev->next = newNode;
+    }
+
+    spin_unlock_irqrestore(&thread_lock,fl); 
+}
+
+int delete_ulist_node(pid_t tid, int cpuid)
+{
+    u_reserve_t *r_delete, *prev;
+    unsigned long fl;
+
+    printk(KERN_INFO "RMS: ulist delete\n");
+
+    spin_lock_irqsave(&thread_lock,fl);
+
+    if (ulist_head[cpuid] == NULL){
+        printk(KERN_INFO "RMS: No node to delete\n");
+        spin_unlock_irqrestore(&thread_lock,fl); 
+        return -1;
+    }
+    else if(ulist_head[cpuid]->tid == tid){
+
+        printk(KERN_INFO "delete head\n");
+        if(ulist_head[cpuid]->next == NULL){
+            kfree(ulist_head[cpuid]);
+            ulist_head[cpuid] = NULL;
+        }
+        else{
+            prev = ulist_head[cpuid]->next;
+            kfree(ulist_head[cpuid]);
+            ulist_head[cpuid] = prev;
+        }
+    }
+    else{
+        
+        prev = ulist_head[cpuid];
+        
+        printk(KERN_INFO "delete general\n");
+        while(prev->next != NULL && prev->next->tid != tid){
+            prev = prev->next;
+        }
+        if(prev->next->tid == tid){
+            r_delete = prev->next;
+            prev->next = prev->next->next;
+            kfree(r_delete);
+        }
+        else{
+            printk(KERN_INFO "RMS: NOT FOUND\n");
+            spin_unlock_irqrestore(&thread_lock,fl); 
+            return -1;
+        }
+    }
+
+    spin_unlock_irqrestore(&thread_lock,fl); 
+
+    return 0;
+}
+
+
+void displayUList()
+{
+    int i;
+    printk(KERN_INFO"\nSorted List is: ");
+    for(i=0;i<4;i++){
+    u_reserve_t *temp = ulist_head[i];
+
+        while(temp != NULL){
+            printk(KERN_INFO"%ld->",temp->tid);
+            temp = temp->next;
+        }
+    }
+}
+
+
+reserve_t *get_reserve_from_tid(pid_t tid)
+{
+    int i;
+    reserve_t *temp;
+    unsigned long fl;
+
+    spin_lock_irqsave(&thread_lock,fl);
+   
+    for(i = 0; i < 4; i++){
+        
+        temp = r_head[i];
+        while(temp != NULL){
+            if(temp->thread->pid == tid){
+                
+                spin_unlock_irqrestore(&thread_lock,fl);
+                return temp;
+            }
+            temp = temp->next;
+        }
+    }
+    
+    spin_unlock_irqrestore(&thread_lock,fl);
+    return NULL;
+}
+
+reserve_t *get_reserve_from_timer(struct hrtimer *timer)
+{
+    int i;
+    reserve_t *temp;
+    unsigned long fl;
+    
+    spin_lock_irqsave(&thread_lock,fl);
+    for(i = 0; i < 4; i++){
+        temp = r_head[i];
+        while(temp != NULL){
+            if(&(temp->timer_T) == timer)
+            {
+                spin_unlock_irqrestore(&thread_lock,fl);
+                return temp;
+            }
+            temp = temp->next;
+        }
+    }
+    spin_unlock_irqrestore(&thread_lock,fl);
+    return NULL;
+}
+
+struct task_struct *get_task_from_tid(pid_t tid)
+{
+    struct task_struct *task_list;
+    unsigned long fl;
+    spin_lock_irqsave(&thread_lock,fl);
+    for_each_process(task_list){
+        if(task_list->pid == tid){
+            spin_unlock_irqrestore(&thread_lock,fl);
+            return task_list;
+        }
+    }
+    spin_unlock_irqrestore(&thread_lock,fl);
+    return NULL;
+}
+
+int check_duplicate_reserve(pid_t tid)
+{
+    int i;
+    reserve_t *temp;
+    unsigned long fl;
+    
+    spin_lock_irqsave(&thread_lock,fl);
+
+    for(i = 0; i < 4; i++){
+        temp = r_head[i];
+        while(temp != NULL){
+            if(temp->thread->pid == tid){
+            	spin_unlock_irqrestore(&thread_lock,fl);
+                return temp->cpuid;
+            }
+            temp = temp->next;
+        }
+    }
+
+    spin_unlock_irqrestore(&thread_lock,fl);
+    return -1;
+}
+
+static enum hrtimer_restart timer_C_callback(struct hrtimer *timer)
+{
+    
+    unsigned long fl;
+    reserve_t *temp;
+    struct timespec curr_time,temp_result;
+
+//    spin_lock_irqsave(&thread_lock, fl);
+    
+    temp = container_of(timer,reserve_t, timer_C);
+    if(temp == NULL)
+        printk("temp is NULL");
+
+    temp->budget_available = 0;
+    
+   // printk("C Timer-------------------------- %lu\n",ktime_to_ns(temp->remaining_C_time));
+    set_task_state(temp->thread, TASK_UNINTERRUPTIBLE);
+    set_tsk_need_resched(temp->thread);
+
+//    spin_unlock_irqrestore(&thread_lock, fl);
+  
+    return HRTIMER_NORESTART;
+}
+
+static enum hrtimer_restart timer_T_callback(struct hrtimer *timer)
+{
+    
+    unsigned long fl;
+    reserve_t *temp;
+    struct timespec curr_time,temp_result;
+
+    spin_lock_irqsave(&thread_lock, fl);
+    
+    temp = container_of(timer,reserve_t, timer_T);
+
+    spin_unlock_irqrestore(&thread_lock, fl);
+
+    createfiles_pid(temp->thread->pid, temp->thread->acc_reserve_time, temp->T); 
+
+    spin_lock_irqsave(&thread_lock, fl);
+
+    getrawmonotonic(&curr_time);
+
+    temp_result = timespec_sub(curr_time, temp->thread->start_reserve_time);
+    temp->thread->acc_reserve_time = timespec_add(temp->thread->acc_reserve_time, temp_result);
+    
+    temp->thread->start_reserve_time.tv_sec = curr_time.tv_sec;
+    temp->thread->start_reserve_time.tv_nsec = curr_time.tv_nsec;
+
+/*    spin_unlock_irqrestore(&thread_lock, fl);
+    
+    if(timespec_compare(&(temp->thread->acc_reserve_time), &(temp->C)) > 0)
+    {
+        //send sigexcess 
+        memset(&budget_exceed_signal, 0, sizeof(struct siginfo));
+        budget_exceed_signal.si_signo = SIGEXCESS;
+        budget_exceed_signal.si_code = SI_QUEUE;
+        budget_exceed_signal.si_int = 1234;
+        send_sig_info(SIGEXCESS, &budget_exceed_signal,temp->thread);     
+    }
+
+
+    spin_lock_irqsave(&thread_lock, fl);
+*/    
+    temp->thread->acc_reserve_time.tv_sec = 0;
+    temp->thread->acc_reserve_time.tv_nsec = 0;
+    
+   // printk("T Timer-------------------------- %lu\n",ktime_to_ns(temp->remaining_C_time));
+    temp->remaining_C_time = timespec_to_ktime(temp->C);
+   // printk("T Timer replenished budget------- %lu\n",ktime_to_ns(temp->remaining_C_time));
+    spin_unlock_irqrestore(&thread_lock, fl);
+    
+    wake_up_process(temp->thread);
+
+    hrtimer_start(&temp->timer_C, temp->remaining_C_time , HRTIMER_MODE_REL_PINNED);
+  
+    hrtimer_forward_now(timer,timespec_to_ktime(temp->T));
+    return HRTIMER_RESTART;
+}
+
+
+cpu_set_t set_reservetask_affinity(pid_t tid, int cpuid){
+
+    int result;
+    cpu_set_t old_set, new_set;
+    
+    CPU_ZERO(&old_set);
+
+    result = sched_getaffinity(tid,&(old_set));
+
+    if(result == -1)
+        printk(KERN_INFO "\n Failed to get cpu affinity of the calling task");
+        
+    result = 0;
+
+    CPU_ZERO(&new_set);
+    CPU_SET(cpuid, &new_set);
+
+    result = sched_setaffinity(tid,&new_set);
+
+    if(result == -1)
+        printk(KERN_INFO "\n Failed to set cpu affinity");
+    
+    return old_set;
+}
+
+void sortedInsert_thread(reserve_t *newNode, int cpuid){
+    
+    reserve_t *temp, *prev;
+    unsigned long fl;
+    
+    spin_lock_irqsave(&thread_lock,fl);
+    
+    temp = r_head[cpuid];
+    prev = NULL;
+    
+    if(temp == NULL){
+        newNode->next = NULL;
+        r_head[cpuid] = newNode;
+        
+        spin_unlock_irqrestore(&thread_lock,fl);
+        return;
+    }
+    
+    while(temp != NULL){
+           
+        if(timespec_compare(&(temp->T),&(newNode->T)) > 0)
+            break;
+        prev = temp;
+        temp = temp->next;
+        
+    }
+    if(temp == r_head[cpuid]){
+        newNode->next = r_head[cpuid];
+        r_head[cpuid] = newNode;
+    }else{
+        newNode->next = prev->next;
+        prev->next = newNode;
+    }
+     
+    spin_unlock_irqrestore(&thread_lock,fl);
+   // displayList(cpuid);
+}
+
+
+int delete_node(pid_t tid, int cpuid)
+{
+    reserve_t *r_delete;
+    reserve_t *prev;
+    unsigned long fl; 
+    spin_lock_irqsave(&thread_lock,fl);
+    
+    if (r_head[cpuid] == NULL){
+        
+        spin_unlock_irqrestore(&thread_lock,fl);
+        printk(KERN_INFO "RMS: No node to delete\n");
+        return -1;
+    }
+    else if(r_head[cpuid]->thread->pid == tid){
+
+        if(r_head[cpuid]->next == NULL){
+            kfree(r_head[cpuid]);
+            r_head[cpuid] = NULL;
+        }
+        else{
+            prev = r_head[cpuid]->next;
+            kfree(r_head[cpuid]);
+            r_head[cpuid] = prev;
+        }
+    }
+    else{
+        
+        prev = r_head[cpuid];
+
+        while(prev->next != NULL && prev->next->thread->pid != tid){
+            prev = prev->next;
+        }
+        if(prev->next->thread->pid==tid){
+            r_delete = prev->next;
+            prev->next = prev->next->next;
+            kfree(r_delete);
+        }
+        else{
+            spin_unlock_irqrestore(&thread_lock,fl);
+            printk(KERN_INFO "RMS: NOT FOUND\n");
+            return -1;
+        }
+    }
+    spin_unlock_irqrestore(&thread_lock,fl);
+    return 0;
+}
+
+reserve_t *create_node(pid_t tid, struct timespec *C, struct timespec *T, int cpuid)
+{
+    int result,on_cpu;
+    unsigned long fl;
+	cpu_set_t my_set,curr_set;
+	struct task_struct *new_rthread;
+	reserve_t *new_node;
+	u_reserve_t *u_node;
+ 
+    on_cpu = check_duplicate_reserve(tid);
+    
+    if (on_cpu != -1){
+
+    	delete_node(tid, on_cpu);
+        delete_ulist_node(tid,cpuid);
+    }
+
+
+    printk(KERN_INFO "creating a node...\n");
+
+    new_rthread = get_task_from_tid(tid);
+    
+    if (new_rthread == NULL){
+        
+        printk(KERN_INFO "No thread found for reservation\n");
+        return NULL;
+    }
+    
+    new_node = (reserve_t *) kmalloc(sizeof(reserve_t),GFP_KERNEL);
+    new_node->thread = new_rthread;
+        
+
+    if (new_node->thread != NULL)
+    {
+        result = sched_getaffinity(tid,&(new_node->old_mask));
+
+        if(result == -1)
+            printk(KERN_INFO "\n Failed to get cpu affinity");
+        
+        result = 0;
+
+        CPU_ZERO(&my_set);
+        CPU_SET(cpuid, &my_set);
+
+        result = sched_setaffinity(tid,&my_set);
+
+        if(result == -1)
+            printk(KERN_INFO "\n Failed to set cpu affinity");
+
+        spin_lock_irqsave(&thread_lock,fl);
+        new_node->cpuid = cpuid;
+        new_node->C.tv_nsec = C->tv_nsec;
+        new_node->C.tv_sec = C->tv_sec;
+        new_node->T.tv_nsec = T->tv_nsec;
+        new_node->T.tv_sec = T->tv_sec;
+        new_node->prio = 0;
+        new_node->budget_available = 1;
+        
+        new_node->thread->start_reserve_time.tv_sec = 0;
+        new_node->thread->start_reserve_time.tv_nsec = 0;
+
+        new_node->thread->acc_reserve_time.tv_sec = 0;
+        new_node->thread->acc_reserve_time.tv_nsec = 0;
+
+
+ 
+        strcpy(new_node->util , "0");
+        strcpy(new_node->timestamp , "0");
+   
+        hrtimer_init(&new_node->timer_T,CLOCK_MONOTONIC,HRTIMER_MODE_REL_PINNED);
+        hrtimer_init(&new_node->timer_C,CLOCK_MONOTONIC,HRTIMER_MODE_REL_PINNED);
+    
+       // printk(KERN_INFO "hr timer initiated\n");
+    
+        new_node->timer_T.function = &timer_T_callback;
+        new_node->timer_C.function = &timer_C_callback;
+        new_node->remaining_C_time = timespec_to_ktime(new_node->C);
+       // printk(KERN_INFO "call back set \n");
+        new_node->next = NULL;
+
+        spin_unlock_irqrestore(&thread_lock,fl);
+
+    }
+    else
+        return NULL;
+    printk(KERN_INFO"new node created\n");
+
+    u_node = create_ulist_node(new_node);
+    insert_ulist_node(u_node,cpuid);
+
+    return new_node;
+}
+ 
+void displayList(int cpuid)
+{   
+    reserve_t *temp = r_head[cpuid];
+    
+    printk(KERN_INFO"\nSorted List is: ");
+    while(temp != NULL){
+        printk(KERN_INFO"%ld->",temp->C.tv_nsec);
+        temp = temp->next;
+    }
+    printk(KERN_INFO"NULL\n");
+}
+
+
+void insert_priority(int cpuid){
+
+    printk(KERN_INFO"assigning priority\n");
+    reserve_t *temp;
+    struct task_struct *rthread;
+    int result;
+    struct sched_param sp;
+    unsigned long fl;
+
+    
+    spin_lock_irqsave(&thread_lock,fl);
+    
+    temp = r_head[cpuid];
+
+    if(temp == NULL){
+   
+        spin_unlock_irqrestore(&thread_lock,fl);
+        printk(KERN_INFO"temp is NULL\n");
+        return;
+    }
+    temp->prio = 1;
+        
+    while(temp->next != NULL){
+
+        if(timespec_compare(&(temp->next->T),&(temp->T)) != 0){
+            
+            if(temp->prio != 98)
+                temp->next->prio = temp->prio+1;
+            else
+                temp->next->prio = 98;
+        
+        }
+        else
+            temp->next->prio = temp->prio;
+        
+        temp = temp->next;
+    }
+    
+    temp = r_head[cpuid];
+    
+    spin_unlock_irqrestore(&thread_lock,fl);
+    
+    printk(KERN_INFO"unlocked first");
+    while(temp != NULL){
+
+        printk(KERN_INFO"locking  again");
+        spin_lock_irqsave(&thread_lock,fl);
+        sp.sched_priority =  temp->prio;   
+        rthread = temp->thread;
+        spin_unlock_irqrestore(&thread_lock,fl);
+        
+        result = sched_setscheduler(temp->thread,SCHED_FIFO,&sp);
+        if(result == -1){
+            printk(KERN_INFO" set scheduler failed..");
+        }
+        
+        temp = temp->next;
+        printk(KERN_INFO"unlocking  again");
+    }   
+
+    printk(KERN_INFO"leaving priority\n");
+}
+
+
+int check_params(pid_t tid, struct timespec *C, struct timespec *T, int cpuid)
+{
+    if(cpuid < -1 || cpuid > 3){
+        return -1;
+    }
+
+    if(C->tv_sec< 0 || T->tv_sec< 0){
+        return -1;
+    }
+     if(C->tv_nsec< 0 || T->tv_nsec< 0){
+        return -1;
+    }
+    
+    if(C->tv_sec >= T->tv_sec){
+        
+     if(C->tv_nsec > T->tv_nsec)
+        return -1;
+    }
+    
+    if(tid<0){
+        return -1;
+    }
+
+    return 0;
+}
+
+void display_reservations(){
+	int i;
+    reserve_t *temp;
+
+    for(i = 0; i < 4; i++){   
+        temp = r_head[i];
+        
+        while(temp != NULL){
+			printk(KERN_INFO"%d %s %d %d",temp->thread->pid,temp->thread->comm,temp->cpuid, temp->prio);            
+			temp = temp->next;
+        }
+    
+    }
+}
+
+int ubtest_set(char *util, int cpuid){
+
+    int tasknumbers = 0;
+    char utildiff[64] = "0";
+    char utiladded[64] = "0";
+    char tempstr[64]="0";
+    int i;
+    
+    strcpy(tempstr,util);
+    
+    rtes_calculateResult(admit_test[cpuid].cpu_util, tempstr,'+', utiladded);
+
+    tasknumbers= admit_test[cpuid].thread_no;
+    
+
+    if (rtes_strcmp(UBtest_values[tasknumbers],utiladded) < 0){
+        return 0;}
+    else{
+        return 1;}
+
+}
+
+reserve_t *findUBtestfail(reserve_t *anode, int cpuid, char *a0_local){
+
+    reserve_t *temp;
+    char util_tot[64]="0";
+    char util_current[64]="0";
+    char temputil[64] ="0";
+    char C_tot[64] = "0";
+    char C_temp[64] = "0";
+    int tasknum;
+    int t=0;
+
+    temp = r_head[admit_test[cpuid].cpuid];
+    tasknum= admit_test[cpuid].thread_no;
+
+    while(temp != anode){
+
+        rtes_calculateResult(util_tot,temp->myparams.current_util,'+',temputil);
+        strcpy(util_tot,temputil);
+        rtes_calculateResult(C_tot,temp->myparams.c_string,'+',C_temp);
+        strcpy(C_tot,C_temp);
+        t = t+1;
+        temp = temp->next;
+
+    }
+
+    while(temp != NULL){
+
+        rtes_calculateResult(util_tot,temp->myparams.current_util,'+',temputil);
+        strcpy(util_tot,temputil);
+        
+        if (rtes_strcmp(UBtest_values[t],util_tot)<0){
+            break;
+        }
+
+        rtes_calculateResult(C_tot,temp->myparams.c_string,'+',C_temp);
+        strcpy(C_tot,C_temp);
+        
+        if (t<tasknum)
+            t++;
+
+        temp=temp->next;
+    }
+
+     strcpy(a0_local,C_tot);
+     return temp;
+}
+
+
+int rttest_set(reserve_t *ad_node, int cpuid){
+
+    char a0_old[64] = "0";
+    char a0_local[64] = "0";
+    char a_new[64] = "0";
+    char s_temp[64] = "0";
+    char temp0[64] = "0";
+    char temp1[64] = "0";
+    char temp3[64] = "0";
+    char atemp[64] = "0";
+    
+    reserve_t *rt_itr, *point_node;
+    int result=0;
+    int final_result=0;
+    int n;
+
+    point_node = findUBtestfail(ad_node,cpuid, a0_local);
+    strcpy(a0_old,a0_local);
+    printk("inside RTtest::a0old: %s a0local:%s\n", a0_old,a0_local);
+
+    while(point_node != NULL){
+
+        rtes_calculateResult(a0_old,point_node->myparams.c_string,'+',atemp);
+        strcpy(a0_old,atemp);
+        strcpy(a0_local,atemp);
+        printk("a0 with C is:%s\n",a0_local);
+
+        while (1){
+            strcpy(s_temp,"0");
+            rt_itr = r_head[admit_test[cpuid].cpuid];
+
+            while(rt_itr != point_node){
+
+                rtes_calculateResult(a0_local,rt_itr -> myparams.t_string,'/', temp0);
+                rtes_ceil(temp0);
+                rtes_calculateResult(temp0,rt_itr -> myparams.c_string,'*', temp1);
+
+                rtes_calculateResult(s_temp,temp1,'+', temp3);
+                strcpy(s_temp,temp3);
+
+                rt_itr = rt_itr -> next;
+            
+            }
+            rtes_calculateResult(point_node -> myparams.c_string ,s_temp,'+', a_new);
+            
+            if (rtes_strcmp(a_new,point_node->myparams.t_string) > 0){
+                printk("breaking because deadline exceed\n");
+                result=0;
+                break;
+            }
+        
+            if (rtes_strcmp(a_new,a0_local)==0){
+                printk("breaking because equal\n");
+                result = 1;
+                break;
+            }
+            strcpy(a0_local,a_new);
+            strcpy(a_new,"0");
+        }
+
+        if (result==0){
+            break;
+        }
+        
+        point_node = point_node -> next;
+    }
+
+    return result;
+}
+
+int perform_tests(pid_t tid, struct timespec *C1, struct timespec *T1, int cpuid, char * C_ms_string, char *T_ms_string, char *current_util)
+{
+    reserve_t *new_node;
+    char put_util[64] = "0";
+    char current_task_util[64] = "0";
+    int test1,test2,n;
+    ktime_t ktime_T;
+		unsigned long afl;
+		printk(KERN_INFO"Perform test initiate");
+
+    n = admit_test[cpuid].cpuid;
+
+    strcpy(current_task_util,current_util);
+    new_node = create_node(tid, C1, T1, n);
+
+
+    if (new_node == NULL){
+        printk(KERN_INFO"No node found");
+        return 0;
+    }
+
+    
+	spin_lock_irqsave(&admit_lock,afl);
+    strcpy(new_node -> myparams.current_util, current_task_util);
+    strcpy(new_node->myparams.c_string,C_ms_string);
+    strcpy(new_node->myparams.t_string,T_ms_string);
+    
+    sortedInsert_thread(new_node, n);
+
+ 
+    test1 = ubtest_set(current_task_util,cpuid); 
+
+    if(!test1){
+
+        printk("UBtest failed\n");
+
+        test2 = rttest_set(new_node,cpuid);
+
+        if (!test2){
+            
+            printk("RTtest failed\n");
+            
+            delete_node(tid,n);
+            delete_ulist_node(tid,n);
+						
+						spin_unlock_irqrestore(&admit_lock,afl);
+            return 0;       // Failure return
+        }
+        else{
+            printk("RT test passed\n");
+        }
+    }
+    else{
+        printk("UBtest passed\n");
+    }
+    
+    
+    rtes_calculateResult(current_task_util,admit_test[cpuid].cpu_util,'+', put_util);
+    strcpy(admit_test[cpuid].cpu_util,put_util);
+    admit_test[cpuid].thread_no = admit_test[cpuid].thread_no+1;
+    
+    spin_unlock_irqrestore(&admit_lock,afl);
+    
+    insert_priority(n);
+    
+    new_node->thread->reserve_offset = (unsigned long)new_node - (unsigned long)new_node->thread;
+
+    ktime_T = timespec_to_ktime(new_node->T);
+    
+    hrtimer_start(&new_node->timer_T,ktime_T,HRTIMER_MODE_REL_PINNED);
+    
+    new_node->thread->on_reservation_framework = 1;
+
+    printk(KERN_INFO"Unlocked...");
+
+    display_reservations();
+		
+		printk(KERN_INFO"Perform test ended");
+    return 1; 
+}
+
+int firstfit_policy(pid_t tid, struct timespec *C1, struct timespec
+*T1, char * C_ms_string,char *T_ms_string, char *current_util){
+
+printk("rms:::performing firstfit\n");
+    int cpuid;
+    int test_result;
+    int i,j,k;
+    cpustruct_t t;
+    unsigned long fl;
+    unsigned long afl;
+		
+
+		i = 0;  
+		
+   spin_lock_irqsave(&thread_lock,fl);
+   if (max_bins!= 0){
+       for (k=0; k<max_bins; k++){
+        for (j=0;j<max_bins;j++){
+            if (admit_test[j].cpuid>admit_test[j+1].cpuid){
+
+                t = admit_test[j];
+                admit_test[j] = admit_test[j+1];
+                admit_test[j+1] = t;
+            }
+        }
+       }
+   }
+	 spin_unlock_irqrestore(&thread_lock,fl);
+
+    printk("%d  %d  bins sorted:\n",i,max_bins);
+
+    while(i<=max_bins){
+
+        cpuid = i;
+				//spin_lock_irqsave(&admit_lock,afl);
+        test_result = perform_tests(tid,C1,T1,i,C_ms_string,T_ms_string,current_util);
+				//spin_lock_irqsave(&admit_lock,afl);
+        if (test_result)
+        {
+            break;
+        }
+				spin_lock_irqsave(&thread_lock,fl);
+        if ((i==max_bins) && (max_bins<3)){
+            max_bins++;
+						printk("increased maxbins %d\n", max_bins);
+        }
+				spin_unlock_irqrestore(&thread_lock,fl);
+        i++;
+   }
+
+    return test_result;
+}
+
+int find_bin_position(int cpuid){
+    int i;
+    for (i=0;i<4;i++){
+        if (admit_test[i].cpuid==cpuid)
+            break;
+    }
+    return i;
+}
+
+
+
+int nextfit_policy(pid_t tid, struct timespec *C1, struct timespec
+*T1, char * C_ms_string,char *T_ms_string, char *current_util){
+
+    printk("rms:::performing nextfit\n");
+    int cpuid;
+    int test_result=0;
+    int i,j,n,k;
+    int old_next;
+    cpustruct_t t;
+		unsigned long fl;
+
+		spin_lock_irqsave(&thread_lock,fl);
+    old_next = admit_test[nextfit_cpuid].cpuid;
+			
+     if (max_bins!=0){
+           for (k=0; k<max_bins; k++){
+            for (j=0;j<max_bins;j++){
+                if (admit_test[j].cpuid>admit_test[j+1].cpuid){
+                    t = admit_test[j];
+                    admit_test[j] = admit_test[j+1];
+                    admit_test[j+1] = t;
+                }
+            }
+           }
+       }
+
+    nextfit_cpuid = find_bin_position(old_next);
+		spin_unlock_irqrestore(&thread_lock,fl);
+
+    i = nextfit_cpuid;
+    j = i;
+
+     printk("after bin sorting\n");
+       for (k=0;k<4;k++)
+           printk(" %d ",admit_test[k].cpuid);
+       printk("\n");
+
+
+    while (j<=(i+max_bins)){
+        printk("i:%d j:%d max_bin:%d\n",i,j,max_bins);
+
+        cpuid = j%(max_bins+1);
+
+        printk("inside nextfit...testing for cpuid %d util %s",admit_test[cpuid].cpuid,admit_test[cpuid].cpu_util);
+        test_result = perform_tests(tid,C1,T1,cpuid,C_ms_string,T_ms_string,current_util);
+        if (test_result)
+            {
+                printk("inserted into cpuid %d\n",cpuid);
+								spin_lock_irqsave(&thread_lock,fl);
+                nextfit_cpuid = cpuid;
+								spin_unlock_irqrestore(&thread_lock,fl);
+                break;
+            }
+				spin_lock_irqsave(&thread_lock,fl);
+        if ((j==(i+max_bins)) && (max_bins<3)){
+
+            max_bins++;
+						spin_unlock_irqrestore(&thread_lock,fl);
+
+						cpuid = max_bins;
+						test_result = perform_tests(tid,C1,T1,cpuid,C_ms_string,T_ms_string,current_util);
+        		if (test_result)
+            {
+                printk("inserted into cpuid %d\n",cpuid);
+								spin_lock_irqsave(&thread_lock,fl);
+                nextfit_cpuid = cpuid;
+								spin_unlock_irqrestore(&thread_lock,fl);
+                break;
+            }
+						
+        }
+        else{
+            j++;
+						spin_unlock_irqrestore(&thread_lock,fl);
+				}
+    }
+
+    return test_result;
+}
+
+
+int bestfit_policy(pid_t tid, struct timespec *C1, struct timespec *T1, char * C_ms_string,char *T_ms_string, char *current_util){
+
+    printk("rms:::performing bestfit\n");
+    int cpuid;
+    int test_result = 0;
+    cpustruct_t t;
+		unsigned long fl;
+
+    int i=0;
+    int j,k;
+		
+		spin_lock_irqsave(&thread_lock,fl);
+    if (max_bins!=0){
+        for (j=0; j<max_bins; j++){
+            for (k=0; k<max_bins; k++){
+
+                if(rtes_strcmp(admit_test[k+1].cpu_util, admit_test[k].cpu_util) > 0){
+										
+                    t = admit_test[k];
+                    admit_test[k] = admit_test[k+1];
+                    admit_test[k+1] = t;
+										
+                }
+            }
+        }
+    }
+		spin_unlock_irqrestore(&thread_lock,fl);
+
+
+    while(i <= max_bins){
+    
+        printk("i:%d max_bins:%d\n",i,max_bins);
+    
+        cpuid = i;
+        printk("cpuid testing %d\n",admit_test[cpuid].cpuid);
+
+        test_result = perform_tests(tid,C1,T1,cpuid,C_ms_string,T_ms_string,current_util);
+
+        if (test_result)
+        {
+            printk("inserted into cpuid %d\n",cpuid);
+            break;
+        }
+				spin_lock_irqsave(&thread_lock,fl);
+        if ((i == max_bins) && (max_bins<3)){
+            
+            max_bins++;
+						
+						printk("increased maxbins %d\n",max_bins);
+				}
+				spin_unlock_irqrestore(&thread_lock,fl);
+        i++;
+    }
+	
+    return test_result;
+
+
+}
+
+
+int worstfit_policy(pid_t tid, struct timespec *C1, struct timespec *T1, 
+char * C_ms_string,char *T_ms_string, char *current_util){
+    printk("rms:::performing worstfit\n");
+    int cpuid;
+    int test_result=0;
+		unsigned long fl;
+
+    cpustruct_t t;
+    int i=0;
+    int j,k;
+		
+		spin_lock_irqsave(&thread_lock,fl);
+    if (max_bins!=0){
+        for (j=0; j<max_bins; j++){
+            for (k=0; k<max_bins; k++){
+
+                if(rtes_strcmp(admit_test[k+1].cpu_util, admit_test[k].cpu_util) < 0){
+
+                    t = admit_test[k];
+                    admit_test[k] = admit_test[k+1];
+                    admit_test[k+1] = t;
+                }
+            }
+        }
+    }
+		spin_unlock_irqrestore(&thread_lock,fl);
+
+    while(i <= max_bins){
+    
+        printk("i:%d max_bins:%d\n",i,max_bins);
+        
+        cpuid = i;
+
+        printk("cpuid testing %d\n",admit_test[cpuid].cpuid);
+
+        test_result = perform_tests(tid,C1,T1,cpuid,C_ms_string,T_ms_string,current_util);
+        if (test_result)
+        {
+            printk("inserted into cpuid %d\n",cpuid);
+            break;
+        }
+				spin_lock_irqsave(&thread_lock,fl);
+        if ((i == max_bins) && (max_bins<3))
+            max_bins++;
+				spin_unlock_irqrestore(&thread_lock,fl);
+
+        i++;
+    }
+
+		return test_result;                                                                                                                                    
+} 
+
+
+asmlinkage long set_reserve(pid_t tid, struct timespec *C, struct timespec *T, int cpuid)
+{
+    reserve_t *new_node;
+    struct timespec *C1, *T1;
+    ktime_t T_resv_ktime;
+    ktime_t C_resv_ktime;
+
+    char current_task_util[64]="0"; 
+    char T_ms_string[64]="0";
+    
+    char C_ms_string[64]="0";
+    int test_result;
+    int test_policy;
+    int policy_bin_flag;
+    unsigned long afl;
+
+    printk(KERN_INFO"beginning\n");
+    
+    C1 = kmalloc(sizeof(struct timespec), GFP_NOWAIT);
+    T1 = kmalloc(sizeof(struct timespec), GFP_NOWAIT);
+    copy_from_user(C1,C,sizeof(struct timespec));
+    copy_from_user(T1,T,sizeof(struct timespec));
+
+    if(check_params(tid, C1, T1, cpuid) < 0){
+        printk(KERN_INFO "RMS: Input Parameter Error");
+        return -1; // ERRORNO CODE
+    }
+
+    T_resv_ktime = timespec_to_ktime(*T1);                                             
+    C_resv_ktime = timespec_to_ktime(*C1);                                             
+                                                                                        
+    sprintf(C_ms_string,"%ld",ktime_to_ms(C_resv_ktime));                               
+    sprintf(T_ms_string,"%ld",ktime_to_ms(T_resv_ktime));
+
+    rtes_calculateResult(C_ms_string,T_ms_string,'/', current_task_util);
+
+    policy_bin_flag = get_policy_bin_flag();
+
+    if (cpuid != -1){
+        test_result = perform_tests(tid,C1,T1,cpuid,C_ms_string,T_ms_string,current_task_util);
+
+        if (!test_result)
+            return -EBUSY;
+    }
+    else
+    {
+        printk("rms::: policy flag is %d\n",policy_bin_flag);
+
+        if (policy_bin_flag == 1){
+            test_policy = firstfit_policy(tid,C1,T1,C_ms_string,
+                    T_ms_string,current_task_util);
+    printk("rms:::performing nextfit\n");
+            
+        }
+        else if (policy_bin_flag == 2){
+            test_policy = nextfit_policy(tid,C1,T1,C_ms_string,T_ms_string,
+                    current_task_util);
+        
+        }
+        else if (policy_bin_flag == 3){
+           test_policy =  bestfit_policy(tid,C1,T1,C_ms_string,
+                   T_ms_string,current_task_util);
+        }
+        else if (policy_bin_flag == 4){
+         test_policy = worstfit_policy(tid,C1,T1,C_ms_string,
+                    T_ms_string,current_task_util);
+        }
+
+
+        if (!test_policy)
+            return -EBUSY;
+    }
+
+    return 0;
+}
+
+/*
+int find_bin_position(int cpuid){
+    int i;
+    for (i=0;i<4;i++){
+        if (admit_test[i].cpuid==cpuid)
+            break;
+    }
+    return i;
+}*/
+
+
+void sortempty_bins(int cpuid){
+    int i,j,p,old_next;
+    cpustruct_t t;
+    
+    old_next=admit_test[nextfit_cpuid].cpuid;
+
+    p=find_bin_position(cpuid);
+
+    for(i=p;i<3;i++){
+        if(rtes_strcmp(admit_test[i].cpu_util,admit_test[i+1].cpu_util)<0){
+            t=admit_test[i];
+            admit_test[i]=admit_test[i+1];
+            admit_test[i+1]=t;
+        }
+    }
+    j=find_bin_position(cpuid);
+    if (j==3)
+        return;
+    else{
+        for (i=j;i<3;i++){
+            if (admit_test[i].cpuid>admit_test[i+1].cpuid){
+                t=admit_test[i];                                                    
+                admit_test[i]=admit_test[i+1];                                      
+                admit_test[i+1]=t;
+            }
+        }
+    }
+
+    nextfit_cpuid = find_bin_position(old_next);
+    return;
+        
+}
+
+asmlinkage long cancel_reserve(pid_t tid)
+{
+    //spin_lock_irqsave(&thread_lock,fl);
+    reserve_t *del_node;
+    struct task_struct *tsk;
+    int cpuid,result;
+    unsigned long fl;
+    cpu_set_t *restore_mask;
+    char util[64]="0";
+    int i,n;
+    int policy_bin_flag;
+    unsigned long afl;
+        
+    printk(KERN_INFO "\n Delete started...");
+    del_node = get_reserve_from_tid(tid);
+    
+    if(del_node != NULL){
+
+        //admission test code
+        spin_lock_irqsave(&admit_lock,afl);
+        n = find_bin_position(del_node->cpuid);
+        rtes_calculateResult(admit_test[n].cpu_util,del_node->myparams.current_util,
+                '-', util);
+        strcpy(admit_test[n].cpu_util,util);
+        admit_test[n].thread_no = admit_test[n].thread_no-1;
+        
+        //closing bins if necessary
+        //policy_bin_flag = get_policy_bin_flag();
+
+        if (admit_test[n].thread_no == 0){
+            sortempty_bins(del_node->cpuid);
+            if (max_bins > 0)
+						{
+								spin_lock_irqsave(&thread_lock,fl);
+                max_bins--;
+								printk("decreased maxbins %d\n",max_bins);
+								spin_unlock_irqrestore(&thread_lock,fl);
+            }
+            printk("printing sorted bins after deletion\n");
+            for (i=0;i<4;i++){
+                printk(" %d %s %d    \n",admit_test[i].cpuid,admit_test[i].cpu_util,admit_test[i].thread_no);
+            }
+        }
+                
+        printk(KERN_INFO "Del node found...");
+        spin_lock_irqsave(&thread_lock,fl);
+        
+        cpuid = del_node->cpuid;
+        del_node->thread->on_reservation_framework = 0;
+        restore_mask = &(del_node->old_mask);
+
+        tsk = del_node->thread;
+        spin_unlock_irqrestore(&thread_lock,fl);
+
+        spin_unlock_irqrestore(&admit_lock,afl);
+        printk(KERN_INFO "restoring affinity...");
+
+        result = sched_setaffinity(tid,&(del_node->old_mask));
+
+        if(result == -1)
+            printk(KERN_INFO "Failed to set old cpu affinity");
+        
+
+        printk(KERN_INFO "cancelling timer...");
+        hrtimer_cancel(&(del_node->timer_T));
+
+        if(hrtimer_active(&(del_node->timer_C)))
+            hrtimer_cancel(&(del_node->timer_C));
+        
+				spin_lock_irqsave(&admit_lock,afl);
+        printk(KERN_INFO "delete the node...");
+        delete_node(tid,cpuid);
+        delete_ulist_node(tid,cpuid);
+        
+        printk(KERN_INFO "update priorities...");
+        
+        insert_priority(cpuid);
+
+		printk(KERN_INFO "deleting files...");
+        				
+		deletefiles_pid(tid);
+
+		printk(KERN_INFO "deleted files...");
+		spin_unlock_irqrestore(&admit_lock,afl);
+        if(tsk->state != TASK_RUNNING)
+            wake_up_process(tsk);
+    }
+
+        printk(KERN_INFO "delete complete...");
+   // display_reservations();
+    //spin_lock_irqsave(&thread_lock,fl);
+    //spin_unlock_irqrestore(&thread_lock,fl);
+    return 0;
+}
+
+asmlinkage long get_reservation_head(struct userspace_reserve_thread *ur_head,long *rt_count, int cpuid)
+{
+    printk(KERN_INFO" size %ld",sizeof(ulist_head));
+
+    copy_to_user(ur_head,ulist_head[cpuid],sizeof(u_reserve_t)*rt_count[cpuid]);
+    
+    printk(KERN_INFO "\n displayed");
+
+    return 0;
+}
+ 
+asmlinkage long get_reservation_count(long *rt_count)
+{
+    int i;
+    reserve_t *temp;
+
+    long *rt_kcount = (long *) kmalloc(sizeof(long)*4, GFP_NOWAIT);
+ 
+
+    for(i = 0; i < 4; i++){
+        
+        temp = r_head[i];
+        atomic_set(&rcount,0);
+        
+        while(temp != NULL){
+            atomic_inc(&rcount);
+            temp = temp->next;
+        }
+        rt_kcount[i] = atomic_read(&rcount);
+    }
+   
+    copy_to_user(rt_count,rt_kcount,sizeof(long)*4);
+    kfree(rt_kcount);
+ 
+    return 0; 
+}
+asmlinkage long end_job(pid_t tid)
+{
+    struct task_struct *tsk;
+
+    tsk = get_task_from_tid(tid);
+    
+    if(tsk->on_reservation_framework == 1){
+        set_task_state(tsk, TASK_UNINTERRUPTIBLE);
+        set_tsk_need_resched(tsk);
+        return 1;
+    }
+
+    return 0;
+}

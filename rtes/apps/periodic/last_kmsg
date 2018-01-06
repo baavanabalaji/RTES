@@ -1,0 +1,1369 @@
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Linux version 3.1.10-g622a4a0-dirty (akanjith@ubuntu-VirtualBox) (gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) ) #85 SMP PREEMPT Fri Oct 13 15:53:38 EDT 2017
+[    0.000000] CPU: ARMv7 Processor [412fc099] revision 9 (ARMv7), cr=10c5387d
+[    0.000000] CPU: VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] Machine: grouper
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Ignoring unrecognised tag 0x41000801
+[    0.000000] Found tegra_fbmem: 007d0c80@abe01000
+[    0.000000] Tegra reserved memory:
+[    0.000000] LP0:                    bddf9000 - bddfafff
+[    0.000000] Bootloader framebuffer: abe01000 - ac5d1fff
+[    0.000000] Framebuffer:            bec00000 - bf4fffff
+[    0.000000] 2nd Framebuffer:        bf500000 - bfdfffff
+[    0.000000] Carveout:               00000000 - 00000000
+[    0.000000] Vpr:                    00000000 - 00000000
+[    0.000000] Memory policy: ECC disabled, Data cache writealloc
+[    0.000000] fuse_speedo_calib: ATE prog ver 3.8
+[    0.000000] Tegra3: CPU Speedo ID 7, Soc Speedo ID 1
+[    0.000000] Tegra Revision: A03 SKU: 0x83 CPU Process: 0 Core Process: 0
+[    0.000000] tegra: PLLP fixed rate: 408000000
+[    0.000000] Lowering cpu_lp maximum rate from 620000000 to 500000000
+[    0.000000] Lowering sbus maximum rate from 378000000 to 267000000
+[    0.000000] Lowering vi maximum rate from 470000000 to 409000000
+[    0.000000] Lowering vde maximum rate from 600000000 to 416000000
+[    0.000000] Lowering mpe maximum rate from 600000000 to 416000000
+[    0.000000] Lowering 2d maximum rate from 600000000 to 416000000
+[    0.000000] Lowering epp maximum rate from 600000000 to 416000000
+[    0.000000] Lowering 3d maximum rate from 600000000 to 416000000
+[    0.000000] Lowering 3d2 maximum rate from 600000000 to 416000000
+[    0.000000] Lowering se maximum rate from 625000000 to 416000000
+[    0.000000] Lowering host1x maximum rate from 300000000 to 267000000
+[    0.000000] Lowering cbus maximum rate from 700000000 to 416000000
+[    0.000000] Lowering pll_c maximum rate from 1400000000 to 1066000000
+[    0.000000] Lowering ndflash maximum rate from 240000000 to 200000000
+[    0.000000] Lowering sbc1 maximum rate from 160000000 to 100000000
+[    0.000000] Lowering sbc2 maximum rate from 160000000 to 100000000
+[    0.000000] Lowering sbc3 maximum rate from 160000000 to 100000000
+[    0.000000] Lowering sbc4 maximum rate from 160000000 to 100000000
+[    0.000000] Lowering sbc5 maximum rate from 160000000 to 100000000
+[    0.000000] Lowering sbc6 maximum rate from 160000000 to 100000000
+[    0.000000] Lowering dsia maximum rate from 500000000 to 275000000
+[    0.000000] Lowering dsib maximum rate from 500000000 to 275000000
+[    0.000000] Lowering cpu_g maximum rate from 1700000000 to 1300000000
+[    0.000000] tegra dvfs: VDD_CPU nominal 1150mV, scaling enabled
+[    0.000000] tegra dvfs: VDD_CORE nominal 1200mV, scaling enabled
+[    0.000000] L310 cache controller enabled
+[    0.000000] l2x0: 8 ways, CACHE_ID 0x410000c7, AUX_CTRL 0x7e080001, Cache size: 1048576 B
+[    0.000000] PERCPU: Embedded 8 pages/cpu @c199a000 s11168 r8192 d13408 u32768
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 254468
+[    0.000000] Kernel command line: tegra_wdt.heartbeat=30 tegraid=30.1.3.0.0 mem=1022M@2048M android.commchip=0 vmalloc=512M androidboot.serialno=015d3f19361c1a05 video=tegrafb no_console_suspend=1 console=none debug_uartport=hsport usbcore.old_scheme_first=1 lp0_vec=8192@0xbddf9000 tegra_fbmem=8195200@0xabe01000 core_edp_mv=0 audio_codec=rt5640 board_info=f41:a00:1:44:2 tegraboot=sdmmc gpt gpt_sector=62357503 androidboot.bootloader=4.18 androidboot.baseband=unknown 
+[    0.000000] PID hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+[    0.000000] Memory: 1003MB = 1003MB total
+[    0.000000] Memory: 997052k/997052k available, 49476k reserved, 625844K highmem
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+[    0.000000]     DMA     : 0xff000000 - 0xffe00000   (  14 MB)
+[    0.000000]     vmalloc : 0xd8800000 - 0xf8000000   ( 504 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xd8000000   ( 384 MB)
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
+[    0.000000]     modules : 0xbf000000 - 0xbfe00000   (  14 MB)
+[    0.000000]       .text : 0xc0008000 - 0xc08ddd04   (9048 kB)
+[    0.000000]       .init : 0xc08de000 - 0xc091fba0   ( 263 kB)
+[    0.000000]       .data : 0xc0920000 - 0xc09ddba0   ( 759 kB)
+[    0.000000]        .bss : 0xc09ddbc4 - 0xc0b5f1b0   (1542 kB)
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] NR_IRQS:800
+[    0.000000] sched_clock: 32 bits at 1000kHz, resolution 1000ns, wraps every 4294967ms
+[    0.000176] Calibrating delay loop... 1993.93 BogoMIPS (lpj=9969664)
+[    0.060080] pid_max: default: 32768 minimum: 301
+[    0.060235] Mount-cache hash table entries: 512
+[    0.060832] Initializing cgroup subsys debug
+[    0.060844] Initializing cgroup subsys cpuacct
+[    0.060888] Initializing cgroup subsys freezer
+[    0.060912] CPU: Testing write buffer coherency: ok
+[    0.061124] hw perfevents: enabled with ARMv7 Cortex-A9 PMU driver, 7 counters available
+[    0.181294] CPU1: Booted secondary processor
+[    0.241282] CPU2: Booted secondary processor
+[    0.301283] CPU3: Booted secondary processor
+[    0.321103] Brought up 4 CPUs
+[    0.321114] SMP: Total of 4 processors activated (7975.73 BogoMIPS).
+[    0.324416] print_constraints: dummy: 
+[    0.324593] NET: Registered protocol family 16
+[    0.325324] host1x bus init
+[    0.325382] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
+[    0.441351] [MISC]: pcbid=0x009e (projectid=0x00)
+[    0.442625] The pingroup KB_ROW0 was configured to RSVD3 instead of <UNKNOWN>
+[    0.443438] grouper_booting_info reg=3
+[    0.443444] grouper_booting_info-SW reboot
+[    0.443833] grouper_edp_init: CPU regulator 6000 mA
+[    0.443983] fiq_debugger_probe: could not install irq handler
+[    0.443999] fiq_debugger: probe of fiq_debugger.0 failed with error -22
+[    0.445089] ram_console: got buffer at beb00000, size 100000
+[    0.445170] ram_console: found existing buffer, size 47769, start 47769
+[    0.583441] console [ram-1] enabled
+[    0.711093] [ELAN] Touch dirver register
+[    0.711171] grouper_modem_init
+[    0.711300] Registering gpio keys
+[    0.711704] grouper_camera_init: pmic_id= 0x0
+[    0.711779] mi1040 i2c_register_board_info
+[    0.711981] *** MPU START *** mpuirq_init...
+[    0.712119] *** MPU END *** mpuirq_init...
+[    0.712245] grouper_emc_init:mem_bootstrap_ad4=1 mem_bootstrap_ad5=0 
+[    0.712426] tegra: validated EMC DFS table
+[    0.712502] grouper_emc_init: Nakasi_dvfs_Hynix_table_0430
+[    0.712636] hw-breakpoint: found 6 breakpoint and 1 watchpoint registers.
+[    0.712710] hw-breakpoint: 1 breakpoint(s) reserved for watchpoint single-step.
+[    0.712854] hw-breakpoint: maximum watchpoint size is 4 bytes.
+[    0.713721] tegra_iovmm_register: added iovmm-smmu
+[    0.720264] bio: create slab <bio-0> at 0
+[    0.720927] vgaarb: loaded
+[    0.721148] i2c-core: driver [tps6591x] using legacy suspend method
+[    0.721223] i2c-core: driver [tps6591x] using legacy resume method
+[    0.721373] i2c-core: driver [tps80031] using legacy suspend method
+[    0.721445] i2c-core: driver [tps80031] using legacy resume method
+[    0.721617] i2c-core: driver [ricoh583] using legacy suspend method
+[    0.721691] i2c-core: driver [ricoh583] using legacy resume method
+[    0.722057] SCSI subsystem initialized
+[    0.723046] usbcore: registered new interface driver usbfs
+[    0.723252] usbcore: registered new interface driver hub
+[    0.723399] usbcore: registered new device driver usb
+[    0.723603] tegra-otg tegra-otg: otg transceiver registered
+[    0.725474] [MAX77663 probe]:CID4=23!
+[    0.728609] Wake18 for irq=118
+[    0.728743] Enabling wake18
+[    0.731042] print_constraints: max77663_sd0: 600 <--> 3387 mV at 1025 mV normal standby
+[    0.732089] print_constraints: max77663_sd1: 800 <--> 1587 mV at 1200 mV normal standby
+[    0.733052] print_constraints: max77663_sd2: 1800 mV normal standby
+[    0.734112] print_constraints: max77663_sd3: 600 <--> 3387 mV at 1350 mV normal standby
+[    0.735149] print_constraints: max77663_ldo0: 800 <--> 2350 mV at 1000 mV normal standby
+[    0.735239] set_supply: max77663_ldo0: supplied by max77663_sd3
+[    0.736295] print_constraints: max77663_ldo1: 800 <--> 2350 mV at 1200 mV normal standby
+[    0.736445] set_supply: max77663_ldo1: supplied by max77663_sd3
+[    0.737425] print_constraints: max77663_ldo2: 800 <--> 3950 mV at 2800 mV normal standby
+[    0.738472] print_constraints: max77663_ldo3: 800 <--> 3950 mV at 3000 mV normal standby
+[    0.739741] print_constraints: max77663_ldo4: 800 <--> 1587 mV at 1000 mV normal standby
+[    0.740693] print_constraints: max77663_ldo5: 800 <--> 2800 mV at 2800 mV normal standby
+[    0.741727] print_constraints: max77663_ldo6: 800 <--> 3950 mV at 3300 mV normal standby
+[    0.742769] print_constraints: max77663_ldo7: 800 <--> 3950 mV at 1200 mV normal standby
+[    0.742861] set_supply: max77663_ldo7: supplied by max77663_sd3
+[    0.743890] print_constraints: max77663_ldo8: 800 <--> 3950 mV at 1200 mV normal standby
+[    0.744038] set_supply: max77663_ldo8: supplied by max77663_sd3
+[    0.744360] max77663 register misc device for I2C stress test rc=0
+[    0.749620] Advanced Linux Sound Architecture Driver Version 1.0.24.
+[    0.750040] Bluetooth: Core ver 2.16
+[    0.750201] NET: Registered protocol family 31
+[    0.750273] Bluetooth: HCI device and connection manager initialized
+[    0.750407] Bluetooth: HCI socket layer initialized
+[    0.750479] Bluetooth: L2CAP socket layer initialized
+[    0.750561] Bluetooth: SCO socket layer initialized
+[    0.750944] cfg80211: Calling CRDA to update world regulatory domain
+[    0.751189] NFC: NFC Core ver 0.1
+[    0.751353] NET: Registered protocol family 39
+[    0.751576] print_constraints: fixed_reg_en_3v3_sys_a01: 3300 mV normal standby
+[    0.752021] print_constraints: fixed_reg_en_avdd_hdmi_usb_a01: 3300 mV normal standby
+[    0.752105] set_supply: fixed_reg_en_avdd_hdmi_usb_a01: supplied by fixed_reg_en_3v3_sys_a01
+[    0.752419] print_constraints: fixed_reg_en_1v8_cam: 1800 mV normal standby
+[    0.752563] set_supply: fixed_reg_en_1v8_cam: supplied by max77663_sd2
+[    0.752831] print_constraints: fixed_reg_en_vddio_vid: 5000 mV normal standby
+[    0.753117] print_constraints: fixed_reg_en_vdd_pnl: 3300 mV normal standby
+[    0.753260] set_supply: fixed_reg_en_vdd_pnl: supplied by fixed_reg_en_3v3_sys_a01
+[    0.753537] print_constraints: fixed_reg_en_vdd_com: 3300 mV normal standby
+[    0.753679] set_supply: fixed_reg_en_vdd_com: supplied by fixed_reg_en_3v3_sys_a01
+[    0.754003] print_constraints: fixed_reg_en_3v3_fuse: 3300 mV normal standby
+[    0.754088] set_supply: fixed_reg_en_3v3_fuse: supplied by fixed_reg_en_3v3_sys_a01
+[    0.754400] print_constraints: fixed_reg_cdc_en: 1200 mV normal standby
+[    0.754486] set_supply: fixed_reg_cdc_en: supplied by max77663_sd2
+[    0.755128] tegra: started io power detection dynamic control
+[    0.755264] tegra: NO_IO_POWER setting 0x1200
+[    0.755337] Switching to clocksource timer_us
+[    0.755429] stop_machine_cpu_stop smp=1
+[    0.755435] stop_machine_cpu_stop smp=0
+[    0.755442] stop_machine_cpu_stop smp=2
+[    0.755449] stop_machine_cpu_stop smp=3
+[    0.761125] Switched to NOHz mode on CPU #0
+[    0.761317] Switched to NOHz mode on CPU #2
+[    0.761324] Switched to NOHz mode on CPU #3
+[    0.761332] Switched to NOHz mode on CPU #1
+[    0.765525] nvmap_page_pool_init: nvmap uc page pool size=31157 pages
+[    0.862378] nvmap_page_pool_init: nvmap wc page pool size=31157 pages
+[    0.959108] nvmap_page_pool_init: nvmap iwb page pool size=31157 pages
+[    1.056489] tegra-nvmap tegra-nvmap: created carveout iram (255KiB)
+[    1.057633] NET: Registered protocol family 2
+[    1.057929] IP route cache hash table entries: 16384 (order: 4, 65536 bytes)
+[    1.058335] TCP established hash table entries: 65536 (order: 7, 524288 bytes)
+[    1.059253] TCP bind hash table entries: 65536 (order: 7, 786432 bytes)
+[    1.060240] TCP: Hash tables configured (established 65536 bind 65536)
+[    1.060314] TCP reno registered
+[    1.060387] UDP hash table entries: 256 (order: 1, 8192 bytes)
+[    1.060529] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+[    1.060865] NET: Registered protocol family 1
+[    1.061187] RPC: Registered named UNIX socket transport module.
+[    1.061266] RPC: Registered udp transport module.
+[    1.061396] RPC: Registered tcp transport module.
+[    1.061468] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    1.061600] PCI: CLS 0 bytes, default 32
+[    1.061791] Unpacking initramfs...
+[    1.093169] Freeing initrd memory: 576K
+[    1.094185] host1x host1x: initialized
+[    1.094337] PMU: registered new PMU device of type 0
+[    1.094837] Tegra auto-hotplug initialized: disabled
+[    1.094922] cpu-tegra: init EDP limit: 1150 MHz
+[    1.112963] highmem bounce pool size: 64 pages
+[    1.113247] ashmem: initialized
+[    1.114265] NTFS driver 2.1.30 [Flags: R/O].
+[    1.114417] fuse init (API version 7.17)
+[    1.114664] Registering char device tf_driver (122:0)
+[    1.114830] TF : INFO 00000001 00:00:00.000 ------ ------ Kernel --------- Booting... (t=00:00:10.170) TFNXBF01.15.36932     /Trusted-Logic
+[    1.115961] io scheduler noop registered
+[    1.116097] io scheduler deadline registered
+[    1.116225] io scheduler cfq registered (default)
+[    1.117118] mpe mpe: initialized
+[    1.118387] gr3d gr3d: initialized
+[    1.118592] dsi dsi: initialized
+[    1.119334] gr2d gr2d: initialized
+[    1.119609] isp isp: initialized
+[    1.119809] vi vi: initialized
+[    1.120338] Disp: diff_msec= 10176
+[    1.371261] tegradc tegradc.0: probed
+[    1.371625] tegradc tegradc.0: probed
+[    1.371903] Wake4 for irq=335
+[    1.372352] nvhdcp: using "always on" policy.
+[    1.372746] tegradc tegradc.1: probed
+[    1.373051] tegradc tegradc.1: probed
+[    1.373570] tegra_uart.1: ttyHS1 at MMIO 0x70006040 (irq = 69) is a TEGRA_UART
+[    1.465863] Registered UART port ttyHS1
+[    1.466013] tegra_uart.2: ttyHS2 at MMIO 0x70006200 (irq = 78) is a TEGRA_UART
+[    1.625865] Registered UART port ttyHS2
+[    1.626007] tegra_uart.3: ttyHS3 at MMIO 0x70006300 (irq = 122) is a TEGRA_UART
+[    1.785864] Registered UART port ttyHS3
+[    1.786008] tegra_uart.4: ttyHS4 at MMIO 0x70006400 (irq = 123) is a TEGRA_UART
+[    1.945867] Registered UART port ttyHS4
+[    1.946018] Initialized tegra uart driver
+[    1.948435] loop: module loaded
+[    1.948594] i2c-core: driver [apds9802als] using legacy suspend method
+[    1.948730] i2c-core: driver [apds9802als] using legacy resume method
+[    1.948872] nct1008_probe+
+[    1.948961] nct1008 4-004c: no regulator found for vdd. Assuming vdd is always powered
+[    1.951303] nct1008 register misc device for I2C stress test rc=0
+[    1.951621] nct1008 4-004c: nct1008_probe: initialized
+[    1.952694] nct1008_get_temp: ret temp=49C 
+[    1.953044] nct1008_probe-
+[    1.953206] i2c-core: driver [nct1008] using legacy suspend method
+[    1.953281] i2c-core: driver [nct1008] using legacy resume method
+[    1.953479] bcm4330_rfkill_probe: can't find bcm4330_32k_clk.				assuming 32k clock to chip
+[    1.953556] bcm4330_rfkill_probe : can't find reset gpio.
+[    1.953865] vibrator_init:Couldn't get regulator vdd_vbrtr
+[    1.953986] Loading pn544 driver
+[    1.954201] pn544_probe : requesting IRQ 408
+[    1.954529] PPP generic driver version 2.4.2
+[    1.954688] PPP Deflate Compression module registered
+[    1.954818] PPP BSD Compression module registered
+[    1.955497] PPP MPPE Compression module registered
+[    1.955634] NET: Registered protocol family 24
+[    1.956079] tun: Universal TUN/TAP device driver, 1.6
+[    1.956214] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+[    1.956407] usbcore: registered new interface driver asix
+[    1.956572] usbcore: registered new interface driver cdc_ether
+[    1.956692] usbcore: registered new interface driver smsc95xx
+[    1.956855] usbcore: registered new interface driver cdc_subset
+[    1.956939] cdc_ncm: 04-Aug-2011
+[    1.957042] usbcore: registered new interface driver cdc_ncm
+[    1.957221] usbcore: registered new interface driver bb_raw_ip_net
+[    1.957306] smb347_charger: [smb347_init] project_id=0, pcba_ver=3, dock_in_gpio=164
+[    1.959689] [charger] Disable AICL, retval=93 setting=83
+[    1.960154] [charger] set cahrger limmit, limit=900 retval =73 setting=73
+[    1.960555] [charger] re-enable AICL, setting=93
+[    1.986704] GPIO pin irq 388 requested ok, smb347_DOCK_IN# = H
+[    1.986784] Wake1 for irq=393
+[    1.986879] GPIO pin irq 393 requested ok, smb347_INOK = L
+[    1.987047] i2c-core: driver [smb347] using legacy suspend method
+[    1.987120] i2c-core: driver [smb347] using legacy resume method
+[    1.987280] bq27541_probe + client->addr= 55
+[    1.987996] bq27541_get_psp status: Not charging ret= 0x0100
+[    1.988715] bq27541_get_psp voltage_now= 3791000 uV
+[    1.989366] bq27541_get_capacity = 42% ret= 46
+[    1.990077] bq27541_get_psp temperature= 340 (0.1¢XC)
+[    1.990669] Wake25 for irq=372
+[    1.990782] setup_low_battery_irq irq=372, LL_BAT_T30=0
+[    1.990949] bq27541_get_psp status: Not charging ret= 0x0100
+[    1.991058] Wake25 for irq=372
+[    1.991187] Enabling wake25
+[    1.991260] gpio bank wake found: wake25 for irq=87
+[    1.991331] Enabling wake25
+[    1.991506] The USB cable status = 0
+[    1.991582] bq27541_probe - bq27541-battery driver registered
+[    1.991684] i2c-core: driver [bq27541-battery] using legacy suspend method
+[    1.991816] i2c-core: driver [bq27541-battery] using legacy resume method
+[    1.991977] bq27541_get_psp voltage_now= 3791000 uV
+[    1.992084] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    1.992619] bq27541_get_capacity = 42% ret= 46
+[    1.993261] bq27541_get_psp temperature= 340 (0.1¢XC)
+[    1.993746] tegra-ehci tegra-ehci.1: Tegra EHCI Host Controller
+[    1.993958] tegra-ehci tegra-ehci.1: new USB bus registered, assigned bus number 1
+[    2.015887] tegra-ehci tegra-ehci.1: irq 53, io mem 0x7d004000
+[    2.035920] tegra-ehci tegra-ehci.1: USB 2.0 started, EHCI 1.00
+[    2.036113] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[    2.036189] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    2.036321] usb usb1: Product: Tegra EHCI Host Controller
+[    2.036394] usb usb1: Manufacturer: Linux 3.1.10-g622a4a0-dirty ehci_hcd
+[    2.036525] usb usb1: SerialNumber: tegra-ehci.1
+[    2.036869] hub 1-0:1.0: USB hub found
+[    2.037014] hub 1-0:1.0: 1 port detected
+[    2.037286] Wake40 for irq=53
+[    2.037361] Enabling wake40
+[    2.037659] usbcore: registered new interface driver cdc_acm
+[    2.037734] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[    2.037904] usbcore: registered new interface driver cdc_wdm
+[    2.037978] Initializing USB Mass Storage driver...
+[    2.038170] usbcore: registered new interface driver usb-storage
+[    2.038241] USB Mass Storage support registered.
+[    2.038424] usbcore: registered new interface driver libusual
+[    2.038594] usbcore: registered new interface driver usbserial
+[    2.038726] usbserial: USB Serial Driver core
+[    2.041634] usbcore: registered new interface driver baseband_usb_58b_41_1
+[    2.041808] USB Serial support registered for GSM modem (1-port)
+[    2.041969] usbcore: registered new interface driver option
+[    2.042102] option: v0.7.2:USB Driver for GSM modems
+[    2.042200] USB Serial support registered for pl2303
+[    2.042379] usbcore: registered new interface driver pl2303
+[    2.042450] pl2303: Prolific PL2303 USB to serial adaptor driver
+[    2.042579] NVidia Tegra High-Speed USB SOC Device Controller driver (Apr 20, 2007)
+[    2.042655] read_hw_version project_id = 0X0, pcb_id = 0X3
+[    2.042946] phy->instance = 0, phy->xcvr_setup_value = 55
+[    2.043033] create_regulator: fixed_reg_en_avdd_hdmi_usb_a01: Failed to create debugfs directory
+[    2.043166] tegra_usb_phy_open instance 0 MAX77663_IRQ_ACOK_RISING
+[    2.045974] fsl-tegra-udc fsl-tegra-udc: usb_bat_chg regulator not registered: USB charging will not be enabled
+[    2.065893] tegra-otg tegra-otg: SUSPEND --> PERIPHERAL
+[    2.066030] fsl_vbus_session(): vbus_active = 0 and  is_active = 1
+[    2.068096] android_usb gadget: Mass Storage Function, version: 2009/09/11
+[    2.068233] android_usb gadget: Number of LUNs=1
+[    2.068308]  lun0: LUN: removable file: (no medium)
+[    2.068600] Gadget Android: controller 'fsl-tegra-udc' not recognized
+[    2.068680] android_usb gadget: android_usb ready
+[    2.068812] fsl-tegra-udc: bind to driver android_usb
+[    2.069018] usbcore: registered new interface driver xpad
+[    2.069190] usbcore: registered new interface driver usb_acecad
+[    2.069263] acecad: v3.2:USB Acecad Flair tablet driver
+[    2.069426] usbcore: registered new interface driver aiptek
+[    2.069500] aiptek: v2.3 (May 2, 2007):Aiptek HyperPen USB Tablet Driver (Linux 2.6.x)
+[    2.069632] aiptek: Bryan W. Headley/Chris Atenasio/Cedric Brun/Rene van Paassen
+[    2.069808] usbcore: registered new interface driver gtco
+[    2.069881] GTCO usb driver version: 2.00.0006
+[    2.069983] usbcore: registered new interface driver hanwang
+[    2.070211] usbcore: registered new interface driver kbtab
+[    2.070284] kbtab: v0.0.2:USB KB Gear JamStudio Tablet driver
+[    2.070451] usbcore: registered new interface driver wacom
+[    2.070525] wacom: v1.52:USB Wacom tablet driver
+[    2.070656] [ektf3k]:[elan] elan_ktf3k_ts_init
+[    2.070815] [ektf3k]:[ELAN] Start HW reset!
+[    2.325875] [ektf3k]:The boot code is new!
+[    2.505874] INOK=L
+[    2.506143] smb347_charger: [cable_type_detect] Reg39 : 0x10
+[    2.506461] smb347_charger: [cable_type_detect] Reg3F : 0x82
+[    2.506534] smb347_charger: [cable_type_detect] USB_IN
+[    2.506849] smb347_charger: [cable_type_detect] Reg3E : 0x09
+[    2.506923] Cable: CDP
+[    2.506993] ========================================================
+[    2.507123] battery_callback  usb_cable_state = 3
+[    2.507194] ========================================================
+[    2.507324] battery_callback cable_wake_lock 5 sec...
+[    2.507328]  
+[    3.065871] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[    3.066069] The USB cable is connected
+[    3.136022] [ektf3k]:[elan] __hello_packet_handler: hello packet 55:55:55:55
+[    3.136158] [ektf3k]:[elan] hello packet's rc = 0
+[    3.347698] [ektf3k]:[elan] __fw_packet_handler: firmware version: 0xb018
+[    3.349670] [ektf3k]:[elan] __fw_packet_handler: X resolution: 0x0078
+[    3.351643] [ektf3k]:[elan] __fw_packet_handler: Y resolution: 0x00c6
+[    3.353544] [ektf3k]:[elan] __fw_packet_handler: firmware id: 0x3021
+[    3.353681] [ektf3k]:[Elan] Max X=2111, Max Y=1279
+[    3.353884] input: elan-touchscreen as /devices/virtual/input/input0
+[    3.354121] [ektf3k]:The firmware was version 0xB018 and id:0x3021
+[    3.354219] [ektf3k]: /proc/ektf_dbg created
+[    3.354522] [ektf3k]:[elan] Start touchscreen elan-touchscreen in interrupt mode
+[    3.354649] [ektf3k]:[ELAN]misc_register finished!!
+[    3.354786] elan-ktf3k 1-0010: Update power source to 1
+[    3.374417] in function ____rmi_bus_init____  
+[    3.374583] rmi_bus_init: successfully registered RMI bus.
+[    3.374696] rmi_spi_init: registering synaptics spi driver (ref=124)
+[    3.374828]              driver.owner        =  0x0
+[    3.374899]              driver.name         =  rmi_spi
+[    3.374970]              id_table[0].name    =  rmi
+[    3.375099]              id_table[1].name    =  rmi_spi
+[    3.375170]              probe function ptr  =  0xc0647cf0
+[    3.375321] in function ____rmi_register_driver____  
+[    3.375414] in function ____rmi_get_function_handler____  
+[    3.375544] in function ____rmi_get_function_handler____  
+[    3.375616] in function ____rmi_get_function_handler____  
+[    3.375746] in function ____rmi_get_function_handler____  
+[    3.375818] in function ____rmi_get_function_handler____  
+[    3.375968] in function ____rmi_get_function_handler____  
+[    3.376261] lid_init+ #####
+[    3.376334] hall_sensor: [lid_init] start LID init.....
+[    3.376692] input: lid_input as /devices/virtual/input/input1
+[    3.376893] Wake28 for irq=374
+[    3.377059] Wake28 for irq=374
+[    3.377131] Enabling wake28
+[    3.377202] CAP1106: [cap1106_init] Cap1106 driver doesn't support this project
+[    3.407205] using rtc device, max77663-rtc, for alarms
+[    3.407294] max77663-rtc max77663-rtc.0: rtc core: registered max77663-rtc as rtc0
+[    3.407892] i2c /dev entries driver
+[    3.408351] Linux video capture interface: v2.00
+[    3.408559] usbcore: registered new interface driver uvcvideo
+[    3.408633] USB Video Class driver (1.1.1)
+[    3.408825] trpc_sema_init: registered misc dev 10:45
+[    3.408955] trpc_node_register: Adding 'local' to node list
+[    3.410037] nvavp nvavp: allocated IOVM at ff00000 for AVP os
+[    3.410428] tegra_camera tegra_camera: tegra_camera_probe
+[    3.410728] sensor_init+ #####
+[    3.410886] mi1040 sensor_probe
+[    3.411069] sensor_init- #####
+[    3.411239] al3010_init+ #####
+[    3.411369] light sensor info : al3010 init 
+[    3.412196] light sensor info : al3010 probe successed
+[    3.412274] al3010 2-001c: driver version 1.0 enabled
+[    3.412567] i2c-core: driver [al3010] using legacy suspend method
+[    3.412643] i2c-core: driver [al3010] using legacy resume method
+[    3.412781] al3010_init- #####
+[    3.413114] device-mapper: uevent: version 1.0.3
+[    3.413357] device-mapper: ioctl: 4.21.0-ioctl (2011-07-06) initialised: dm-devel@redhat.com
+[    3.413458] Bluetooth: HCI UART driver ver 2.2
+[    3.413590] Bluetooth: HCI H4 protocol initialized
+[    3.413663] Bluetooth: HCILL protocol initialized
+[    3.413794] Bluetooth: BlueSleep Mode Driver Ver 1.1
+[    3.413917] Wake7 for irq=390
+[    3.414562] cpuidle: using governor ladder
+[    3.414986] cpuidle: using governor menu
+[    3.415107] sdhci: Secure Digital Host Controller Interface driver
+[    3.415180] sdhci: Copyright(c) Pierre Ossman
+[    3.415309] sdhci-pltfm: SDHCI platform and OF driver helper
+[    3.415381] sdhci_tegra_init+ #####
+[    3.415619] sdhci-tegra sdhci-tegra.3: Error: tegra3 io dpd not supported for sdhci-tegra.3
+[    3.416716] mmc0: Invalid maximum block size, assuming 512 bytes
+[    3.417995] Registered led device: mmc0::
+[    3.421354] mmc0: SDHCI controller on sdhci-tegra.3 [sdhci-tegra.3] using ADMA
+[    3.421546] sdhci-tegra sdhci-tegra.2: Error: tegra3 io dpd not supported for sdhci-tegra.2
+[    3.422691] mmc1: Invalid maximum block size, assuming 512 bytes
+[    3.423879] Registered led device: mmc1::
+[    3.426182] mmc1: SDHCI controller on sdhci-tegra.2 [sdhci-tegra.2] using ADMA
+[    3.426296] sdhci_tegra_init- #####
+[    3.426663] Registered led device: statled
+[    3.427833] tegra-se tegra-se: tegra_se_probe: complete
+[    3.429377] usbcore: registered new interface driver usbhid
+[    3.429578] usbhid: USB HID core driver
+[    3.429864] logger: created 256K log 'log_main'
+[    3.430056] logger: created 256K log 'log_events'
+[    3.430182] logger: created 256K log 'log_radio'
+[    3.430306] logger: created 256K log 'log_system'
+[    3.497587] [mmc]:mmc_decode_cid:113 cid.prv 0x1
+[    3.509038] [mmc]:mmc_read_ext_csd:285 ext_csd.sectors 0x3b78000 prod_name MMC32G BOOT_MULTI 0x10
+[    3.510989] mmc0: new high speed DDR MMC card at address 0001
+[    3.511198] mmcblk mmc0:0001: Card claimed for testing.
+[    3.511571] mmcblk0: mmc0:0001 MMC32G 29.7 GiB 
+[    3.511808] mmcblk0boot0: mmc0:0001 MMC32G partition 1 2.00 MiB
+[    3.512091] mmcblk0boot1: mmc0:0001 MMC32G partition 2 2.00 MiB
+[    3.514076] Primary GPT is invalid, using alternate GPT.
+[    3.514250]  mmcblk0: p1 p2 p3 p4 p5 p6 p7 p8 p9
+[    3.516227]  mmcblk0boot1: unknown partition table
+[    3.517424]  mmcblk0boot0: unknown partition table
+[    3.517674] [mmc]:mmc_rescan_try_freq:1907 mmc0: eMMC completed
+[    3.986659] inv_mpu_probe: Probe name mpu6050
+[    3.986739] i2c i2c-2: MPU6050 is ready to go!
+[    3.986929] i2c-core: driver [LTR_558ALS] using legacy suspend method
+[    3.987063] i2c-core: driver [LTR_558ALS] using legacy resume method
+[    3.987973] inv_ami306_probe: Probe name ami306
+[    3.988080] RIL: [ril_init] RIL init
+[    3.988155] RIL: [ril_init] Ril driver doesn't support this project
+[    4.485871] HDMI status: Codec=3 Pin=5 Presence_Detect=0 ELD_Valid=0
+[    4.506766] bq27541_get_psp status: Charging ret= 0x0100
+[    4.507477] bq27541_get_psp voltage_now= 3778000 uV
+[    4.508118] bq27541_get_capacity = 42% ret= 46
+[    4.508818] bq27541_get_psp temperature= 340 (0.1¢XC)
+[    4.526512] rt5640_modinit
+[    4.526613] rt5640_i2c_probe
+[    4.666009] DSP version code = 0x501a
+[    4.666246] ************************realtek_ce_init_hwdep*************************************
+[    4.666387] do_rt5640_dsp_set_mode mode=0
+[    4.666468] rt5640 4-001c: w->name=SDI1 TX Mux
+[    4.666543] rt5640 4-001c: path->name=IF2 path->connect=0
+[    4.666675] rt5640 4-001c: path->name=IF1 path->connect=1
+[    4.666793] rt5640 4-001c: w->name=Stereo DAC MIXL
+[    4.666928] rt5640 4-001c: path->name=DAC L1 Switch connect=1
+[    4.667029] rt5640 4-001c: w->name=Stereo DAC MIXL
+[    4.667163] rt5640 4-001c: path->name=DAC L2 Switch connect=0
+[    4.667424] rt5640 4-001c: w->name=Stereo DAC MIXR
+[    4.667559] rt5640 4-001c: path->name=DAC R1 Switch connect=1
+[    4.667665] rt5640 4-001c: w->name=Stereo DAC MIXR
+[    4.667800] rt5640 4-001c: path->name=DAC R2 Switch connect=0
+[    4.668061] rt5640 4-001c: w->name=Stereo ADC MIXL
+[    4.668197] rt5640 4-001c: path->name=ADC1 Switch connect=1
+[    4.668303] rt5640 4-001c: w->name=Stereo ADC MIXR
+[    4.668378] rt5640 4-001c: path->name=ADC1 Switch connect=1
+[    4.668540] rt5640 4-001c: w->name=Stereo ADC MIXL
+[    4.668615] rt5640 4-001c: path->name=ADC2 Switch connect=1
+[    4.668773] rt5640 4-001c: w->name=Stereo ADC MIXR
+[    4.668848] rt5640 4-001c: path->name=ADC2 Switch connect=1
+[    4.669007] rt5640 4-001c: w->name=Mono ADC MIXL
+[    4.669082] rt5640 4-001c: path->name=ADC2 Switch connect=0
+[    4.669240] rt5640 4-001c: w->name=Mono ADC MIXR
+[    4.669315] rt5640 4-001c: path->name=ADC2 Switch connect=0
+[    4.676673] asoc: rt5640-aif1 <-> tegra30-i2s.1 mapping ok
+[    4.679411] asoc: dit-hifi <-> tegra30-spdif mapping ok
+[    4.683801] asoc: dit-hifi <-> tegra30-i2s.3 mapping ok
+[    4.684530] headset_init+ #####
+[    4.684604] HEADSET: Headset detection init
+[    4.684973] HEADSET: Headset detection mode
+[    4.685048] HEADSET: Config LineOut detection gpio
+[    4.685124] gpio_request: gpio-179 (lineout_int) status -16
+[    4.685257] HEADSET: Config Headset Button detection gpio
+[    4.685331] gpio_request: gpio-186 (btn_INT) status -16
+[    4.685461] HEADSET: Config uart<->headphone gpio
+[    4.685531] HEADSET: Config Jack-in detection gpio
+[    4.685658] HEADSET: Turn on micbias power
+[    4.685736] Wake12 for irq=402
+[    4.685881] Wake12 for irq=402
+[    4.686013] Enabling wake12
+[    4.686085] gpio bank wake found: wake12 for irq=119
+[    4.686156] Enabling wake12
+[    4.705868] HEADSET: Turn off micbias power
+[    4.706016] headset_init- #####
+[    4.706088] ALSA device list:
+[    4.706159]   #0: HDA NVIDIA Tegra at 0x70038000 irq 113
+[    4.706290]   #1: tegra-rt5640
+[    4.706561] oprofile: using arm/armv7-ca9
+[    4.706745] GACT probability NOT on
+[    4.706882] Mirror/redirect action on
+[    4.706955] u32 classifier
+[    4.707024]     Actions configured
+[    4.707156] Netfilter messages via NETLINK v0.30.
+[    4.707293] nf_conntrack version 0.5.0 (15587 buckets, 62348 max)
+[    4.707676] ctnetlink v0.93: registering with nfnetlink.
+[    4.707787] NF_TPROXY: Transparent proxy support initialized, version 4.1.0
+[    4.707920] NF_TPROXY: Copyright (c) 2006-2007 BalaBit IT Ltd.
+[    4.708257] xt_time: kernel timezone is -0000
+[    4.708538] ip_tables: (C) 2000-2006 Netfilter Core Team
+[    4.708796] arp_tables: (C) 2002 David S. Miller
+[    4.708911] TCP cubic registered
+[    4.709146] NET: Registered protocol family 10
+[    4.709875] Mobile IPv6
+[    4.709972] ip6_tables: (C) 2000-2006 Netfilter Core Team
+[    4.710246] IPv6 over IPv4 tunneling driver
+[    4.711064] NET: Registered protocol family 17
+[    4.711213] NET: Registered protocol family 15
+[    4.711391] Bluetooth: RFCOMM TTY layer initialized
+[    4.711478] Bluetooth: RFCOMM socket layer initialized
+[    4.711609] Bluetooth: RFCOMM ver 1.11
+[    4.711682] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    4.711814] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[    4.712042] NET: Registered protocol family 37
+[    4.712175] VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+[    4.712342] Registering SWP/SWPB emulation handler
+[    4.720115] Do not disable PWM clock when kernel inits 
+[    4.720203] Disabling clocks left on by bootloader:
+[    4.720334]    fuse_burn
+[    4.720412]    cclk_lp
+[    4.720486]    pll_x_out0
+[    4.720556]    pll_d2_out0
+[    4.720625]    pll_d_out0
+[    4.720754]    pll_p_out2
+[    4.720828]    pll_c_out1
+[    4.720902]    pll_m_out1
+[    4.721072] CPU rate: 1000 MHz
+[    4.721240] tegra_fuse_program_init: no vdd_fuse. fuse write disabled
+[    4.721587] tegra3_dvfs: minimum cap.cbus rate 228000000 requires 1000 mV
+[    4.721779] tegra dvfs: tegra sysfs cap interface is initialized
+[    4.722157] tegra_actmon.emc: Completed initialization (0)
+[    4.722441] tegra_actmon.avp: Completed initialization (0)
+[    4.723397] regulator_init_complete: fixed_reg_cdc_en: incomplete constraints, leaving on
+[    4.723543] regulator_init_complete: max77663_ldo8: incomplete constraints, leaving on
+[    4.723681] regulator_init_complete: max77663_ldo4: incomplete constraints, leaving on
+[    4.723939] ## wifi_probe
+[    4.724074] wifi_set_power = 1
+[    4.724145] Powering on wifi
+[    5.024521] wifi_set_carddetect = 1
+[    5.025905] 
+[    5.025908] Dongle Host Driver, version 5.90.195.104
+[    5.025912] Compiled in drivers/net/wireless/bcmdhd on Oct 13 2017 at 15:49:22
+[    5.069985] mmc1: new high speed SDIO card at address 0001
+[    5.070777] F1 signature read @0x18000000=0x16044330
+[    5.074396] DHD: dongle ram size is set to 294912(orig 294912)
+[    5.074993] wl_create_event_handler thr:6a started
+[    5.075722] p2p0: P2P Interface Registered
+[    5.075944] dhd_attach thr:6b started
+[    5.076079] dhd_attach thr:6c started
+[    5.076214] dhd_attach thr:6d started
+[    5.076392] dhd_attach thr:6e started
+[    5.077043] Broadcom Dongle Host Driver: register interface [wlan0] MAC: 00:90:4c:11:22:33
+[    5.077198] [mmc]:mmc_rescan_try_freq:1903 mmc1: sdio completed
+[    5.077286] wifi_set_power = 0
+[    5.077417] Powering off wifi
+[    5.377788] =========== WLAN placed in RESET ========
+[    5.377955] Wake24 for irq=392
+[    5.378350] input: gpio-keys as /devices/platform/gpio-keys.0/input/input2
+[    5.393120] max77663-rtc max77663-rtc.0: setting system clock to 2017-10-13 20:01:27 UTC (1507924887)
+[    5.393368] Warning: unable to open an initial console.
+[    5.393597] Freeing init memory: 260K
+[    5.397594] init (1): /proc/1/oom_adj is deprecated, please use /proc/1/oom_score_adj instead.
+[    5.403073] bq27541_get_psp status: Charging ret= 0x0100
+[    5.403725] bq27541_get_psp voltage_now= 3790000 uV
+[    5.404367] bq27541_get_capacity = 42% ret= 46
+[    5.405066] bq27541_get_psp temperature= 340 (0.1¢XC)
+[    5.458715] keychord: using input dev gpio-keys for fevent
+[    5.844862] EXT4-fs (mmcblk0p3): mounted filesystem with ordered data mode. Opts: (null)
+[    5.859187] EXT4-fs (mmcblk0p4): recovery complete
+[    5.860079] EXT4-fs (mmcblk0p4): mounted filesystem with ordered data mode. Opts: discard,nomblk_io_submit,errors=panic
+[    6.099492] EXT4-fs (mmcblk0p9): recovery complete
+[    6.100408] EXT4-fs (mmcblk0p9): mounted filesystem with ordered data mode. Opts: discard,nomblk_io_submit,errors=panic
+[    6.113351] cpufreq_interactive_input_connect: connect to elan-touchscreen
+[    6.520959] init: cannot find '/system/bin/rild', disabling 'ril-daemon'
+[    6.579658] init: cannot find '/system/etc/install-recovery.sh', disabling 'flash_recovery'
+[    6.582612] init: cannot find '/system/bin/rm_ts_server', disabling 'rm_ts_service'
+[    6.583643] tegra_uart tegra_uart.2: Setting clk_src clk_m
+[    6.584158] tegra_uart tegra_uart.2: Setting clk_src clk_m
+[    6.589374] tegra_uart tegra_uart.2: Setting clk_src clk_m
+[    6.589832] tegra_uart tegra_uart.2: Setting clk_src clk_m
+[    6.601629] Tegra auto-hotplug enabled
+[    6.603214] tegra_uart tegra_uart.1: Setting clk_src clk_m
+[    6.603608] tegra_uart tegra_uart.1: Setting clk_src clk_m
+[    6.608405] tegra_uart tegra_uart.1: Setting clk_src clk_m
+[    6.608868] tegra_uart tegra_uart.1: Setting clk_src clk_m
+[    6.613365] [ektf3k]:[ELAN]into elan_iap_open
+[    6.674623] [ektf3k]:Update touch firmware with the file path:/system/etc/firmware/touch_fw.ekt
+[    6.689546] init: service 'console' requires console
+[    6.691108] android_usb: already disabled
+[    6.691669] [ektf3k]:The firmware was version 0xB011 and id:0x3021
+[    6.691720] android_usb: already disabled
+[    6.692083] [ektf3k]:No need to update firmware
+[    6.696040] cpu_down(1)+
+[    6.697283] adb_open
+[    6.697667] adb_open(adbd)
+[    6.697973] mtp_bind_config
+[    6.698378] adb_bind_config
+[    6.699847] stop_machine_cpu_stop smp=0
+[    6.699857] stop_machine_cpu_stop smp=3
+[    6.699864] stop_machine_cpu_stop smp=2
+[    6.699872] stop_machine_cpu_stop smp=1
+[    6.700930] CPU1: shutdown
+[    6.702968] cpu_down(1)-
+[    6.769576] TF : INFO 00000002 20:01:18.700 P-0005 T-000C TL OTF --------- SDrvCreate
+[    6.772388] TF : INFO 00000003 20:01:18.703 ------ ------ Kernel --------- Booted
+[    6.825668] android_work: did not send uevent (0 0   (null))
+[    6.914447] android_work: sent uevent USB_STATE=CONNECTED
+[    7.686005] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[    7.686279] The USB cable is connected
+[    7.686668] elan-ktf3k 1-0010: Update power source to 1
+[    7.954586] android_work: sent uevent USB_STATE=DISCONNECTED
+[    8.040931] android_work: sent uevent USB_STATE=CONNECTED
+[    8.045438] android_work: sent uevent USB_STATE=DISCONNECTED
+[    8.143468] android_work: sent uevent USB_STATE=CONNECTED
+[    8.270605] android_work: sent uevent USB_STATE=DISCONNECTED
+[    8.356163] android_work: sent uevent USB_STATE=CONNECTED
+[    8.360602] android_work: sent uevent USB_STATE=DISCONNECTED
+[    8.458378] android_work: sent uevent USB_STATE=CONNECTED
+[    8.461059] nvavp nvavp: using SMMU at ff00000 to load AVP kernel
+[    8.557436] nvavp nvavp: read firmware from 'nvavp_os_0ff00000.bin' (15404 bytes)
+[    8.572290] nvavp nvavp: entry=00000094 control=00004a10 debug=00005210 size=15380
+[    8.572561] nvavp nvavp: AVP os at vaddr=d8e00000 paddr=ff00000 reset_addr=0ff00094
+[    8.588591] nvavp nvavp: read ucode firmware from 'nvavp_vid_ucode_alt.bin' (26832 bytes)
+[    8.604526] widget AIF3RX AIF3 Playback
+[    8.604656] widget AIF3TX AIF3 Capture
+[    8.613862] widget AIF3RX AIF3 Playback
+[    8.613942] widget AIF3TX AIF3 Capture
+[    8.633901] set_config : usb set config wake lock ++
+[    8.634001] android_usb gadget: high speed config #1: android
+[    8.634281] android_work: sent uevent USB_STATE=CONFIGURED
+[    9.096048] cpu_down(2)+
+[    9.106656] stop_machine_cpu_stop smp=0
+[    9.106663] stop_machine_cpu_stop smp=2
+[    9.106669] stop_machine_cpu_stop smp=3
+[    9.107390] CPU2: shutdown
+[    9.110394] cpu_down(2)-
+[    9.198058] cpu_up(1)+
+[    9.213662] CPU1: Booted secondary processor
+[    9.215866] Switched to NOHz mode on CPU #1
+[    9.225033] cpu_up(1)-
+[   13.327281] warning: `zygote' uses 32-bit capabilities (legacy support in use)
+[   13.391178] iio-buffer, current state requested again
+[   13.394703] iio-buffer, current state requested again
+[   13.396157] iio-buffer, current state requested again
+[   13.475972] iio-buffer, current state requested again
+[   13.595927] cpu_up(2)+
+[   13.596607] CPU2: Booted secondary processor
+[   13.597293] cpu_up(2)-
+[   13.605896] Switched to NOHz mode on CPU #2
+[   15.605929] cpu_down(1)+
+[   15.606590] stop_machine_cpu_stop smp=0
+[   15.606598] stop_machine_cpu_stop smp=3
+[   15.606603] stop_machine_cpu_stop smp=1
+[   15.606610] stop_machine_cpu_stop smp=2
+[   15.608127] CPU1: shutdown
+[   15.609489] cpu_down(1)-
+[   15.905947] cpu_up(1)+
+[   15.906830] CPU1: Booted secondary processor
+[   15.907396] cpu_up(1)-
+[   15.915896] Switched to NOHz mode on CPU #1
+[   17.595004] bq27541_get_capacity = 42% ret= 46
+[   17.595689] bq27541_get_psp voltage_now= 3776000 uV
+[   17.596363] bq27541_get_psp temperature= 340 (0.1¢XC)
+[   17.597089] bq27541_get_psp status: Charging ret= 0x0100
+[   17.598725] request_suspend_state: wakeup (3->0) at 17602878003 (2017-10-13 20:01:39.699798002 UTC)
+[   17.648222] nvavp nvavp: using SMMU at ff00000 to load AVP kernel
+[   17.648496] nvavp nvavp: AVP os at vaddr=d8e00000 paddr=ff00000 reset_addr=0ff00094
+[   17.906006] cpu_down(3)+
+[   17.908441] stop_machine_cpu_stop smp=1
+[   17.908449] stop_machine_cpu_stop smp=2
+[   17.908454] stop_machine_cpu_stop smp=0
+[   17.908461] stop_machine_cpu_stop smp=3
+[   17.909284] CPU3: shutdown
+[   17.910101] cpu_down(3)-
+[   18.497444] acc_open
+[   18.497577] acc_release
+[   18.653036] al3010 debug log : light sensor chip is resumed
+[   18.705948] cpu_up(3)+
+[   18.712398] CPU3: Booted secondary processor
+[   18.715921] Switched to NOHz mode on CPU #3
+[   18.716372] cpu_up(3)-
+[   19.722367] mtp_open
+[   20.343237] pn544_dev_ioctl power on
+[   20.445970] pn544_dev_ioctl power off
+[   20.565995] pn544_dev_ioctl power on
+[   24.021377] init: sys_prop: permission denied uid:1003  name:service.bootanim.exit
+[   42.075873] shutdown_enable_set bq27541_device->shutdown_disable = 0
+[   54.593233] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.609923] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.626580] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.643233] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.659885] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.676554] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.686775] request_suspend_state: sleep (0->3) at 54690929002 (2017-10-13 20:02:16.787848001 UTC)
+[   54.686921] early_suspend: call handlers
+[   54.687029] [ektf3k]:[elan] elan_ktf3k_ts_suspend: enter
+[   54.687436] stop_drawing_early_suspended
+[   54.700154] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[   54.700284] grouper_panel_early_suspended
+[   54.700345] al3010_early_suspend+
+[   54.700772] al3010_early_suspend-
+[   54.700884] early_suspend: sync
+[   54.706876] active wake lock PowerManagerService.Broadcasts
+[   54.706961] active wake lock usb_config_wake_lock
+[   54.707070] active wake lock charger_configuration
+[   62.556684] [charger] Disable AICL, retval=93 setting=83
+[   62.557107] [charger] set cahrger limmit, limit=1800 retval =73 setting=76
+[   62.557470] [charger] re-enable AICL, setting=93
+[   64.636522] bq27541_get_psp status: Charging ret= 0x0101
+[   64.637165] bq27541_get_psp voltage_now= 3770000 uV
+[   64.637840] bq27541_get_capacity = 42% ret= 46
+[   64.638485] bq27541_get_psp temperature= 340 (0.1¢XC)
+[   64.640258] bq27541_get_capacity = 42% ret= 46
+[   64.641003] bq27541_get_psp voltage_now= 3770000 uV
+[   64.641692] bq27541_get_psp temperature= 340 (0.1¢XC)
+[   64.642426] bq27541_get_psp status: Charging ret= 0x0101
+[  104.950806] tegra-otg tegra-otg: PERIPHERAL --> SUSPEND
+[  104.950931] fsl_vbus_session(): vbus_active = 1 and  is_active = 0
+[  104.951041] reset_config : usb reset config wake unlock --
+[  104.951047] mtp_release
+[  104.951411] android_work: sent uevent USB_STATE=DISCONNECTED
+[  104.951506] tegra-otg tegra-otg: SUSPEND --> SUSPEND
+[  104.951619] cable_detection_work_handler(): vbus_active = 1 and is_active = 0
+[  104.951680] The USB cable is disconnected.
+[  104.951792] elan-ktf3k 1-0010: Update power source to 0
+[  104.951931] adb_release
+[  104.952002] adb_release
+[  104.952334] adb_open
+[  104.952418] adb_open(adbd)
+[  104.952495] mtp_bind_config
+[  104.952595] adb_bind_config
+[  105.525884] INOK=H
+[  105.526805] [charger] Disable AICL, retval=93 setting=83
+[  105.527187] [charger] set cahrger limmit, limit=900 retval =76 setting=73
+[  105.527613] [charger] re-enable AICL, setting=93
+[  105.556637] ========================================================
+[  105.556752] battery_callback  usb_cable_state = 0
+[  105.556813] ========================================================
+[  105.556922] battery_callback cable_wake_lock 5 sec...
+[  105.556926]  
+[  105.557060] elan-ktf3k 1-0010: Update power source to 0
+[  105.558885] bq27541_get_capacity = 42% ret= 46
+[  105.559575] bq27541_get_psp voltage_now= 3776000 uV
+[  105.560313] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  105.561000] bq27541_get_psp status: Discharging ret= 0x0101
+[  105.612269] request_suspend_state: wakeup (3->0) at 105616416002 (2017-10-13 20:03:07.713336001 UTC)
+[  105.612374] late_resume: call handlers
+[  105.612493] al3010_late_resume+
+[  105.619175] al3010 debug log : light sensor chip is resumed
+[  105.619250] al3010_late_resume-
+[  105.619396] Disp: diff_msec= 50926
+[  105.894227] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  105.894419] grouper_panel_late_resumed
+[  105.894520] start_drawing_late_resumed
+[  105.894625] [ektf3k]:[elan] elan_ktf3k_ts_resume: enter
+[  105.895332] [ektf3k]:[elan] dump repsponse: 58
+[  105.895479] late_resume: done
+[  107.556556] bq27541_get_psp status: Discharging ret= 0x0101
+[  107.557270] bq27541_get_psp voltage_now= 3721000 uV
+[  107.557909] bq27541_get_capacity = 42% ret= 46
+[  107.558604] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  107.560175] bq27541_get_capacity = 42% ret= 46
+[  107.560938] bq27541_get_psp voltage_now= 3721000 uV
+[  107.561634] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  107.562328] bq27541_get_psp status: Discharging ret= 0x0101
+[  111.156018] tegra-otg tegra-otg: SUSPEND --> PERIPHERAL
+[  111.156099] fsl_vbus_session(): vbus_active = 0 and  is_active = 1
+[  111.745885] INOK=L
+[  111.746162] smb347_charger: [cable_type_detect] Reg39 : 0x10
+[  111.746455] smb347_charger: [cable_type_detect] Reg3F : 0x83
+[  111.746521] smb347_charger: [cable_type_detect] USB_IN
+[  111.746811] smb347_charger: [cable_type_detect] Reg3E : 0x0e
+[  111.746876] Unkown Plug In Cable type !
+[  111.746941] ========================================================
+[  111.747056] battery_callback  usb_cable_state = 1
+[  111.747120] ========================================================
+[  111.747234] battery_callback cable_wake_lock 5 sec...
+[  111.747237]  
+[  111.748778] bq27541_get_capacity = 42% ret= 46
+[  111.749581] bq27541_get_psp voltage_now= 3723000 uV
+[  111.750268] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  111.751005] bq27541_get_psp status: Charging ret= 0x0101
+[  112.155919] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[  112.156050] The USB cable is connected
+[  112.156119] elan-ktf3k 1-0010: Update power source to 1
+[  113.746501] bq27541_get_psp status: Charging ret= 0x0101
+[  113.747151] bq27541_get_psp voltage_now= 3765000 uV
+[  113.747835] bq27541_get_capacity = 42% ret= 46
+[  113.748476] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  113.750003] bq27541_get_capacity = 42% ret= 46
+[  113.750746] bq27541_get_psp voltage_now= 3765000 uV
+[  113.751430] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  113.752167] bq27541_get_psp status: Charging ret= 0x0101
+[  142.234668] request_suspend_state: sleep (0->3) at 142238813002 (2017-10-13 20:03:44.335732001 UTC)
+[  142.234858] early_suspend: call handlers
+[  142.234996] [ektf3k]:[elan] elan_ktf3k_ts_suspend: enter
+[  142.235426] stop_drawing_early_suspended
+[  142.240408] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  142.257007] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  142.279021] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  142.279146] grouper_panel_early_suspended
+[  142.279207] al3010_early_suspend+
+[  142.281349] al3010_early_suspend-
+[  142.281483] early_suspend: sync
+[  142.283043] active wake lock PowerManagerService.Broadcasts
+[  142.308642] suspend: enter suspend
+[  142.308779] PM: Syncing filesystems ... done.
+[  142.309856] PM: Preparing system for mem sleep
+[  142.309994] Tegra emc suspend: enabled bridge.emc
+[  142.310060] Tegra cpufreq suspend: setting frequency to 475000 kHz
+[  142.312229] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  142.336424] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  142.356438] PM: Entering mem sleep
+[  142.357470] [mmc]:mmc_queue_suspend:354 mmc0: blk_stop_queue start
+[  142.357734] [mmc]:mmc_queue_suspend:354 mmc0: blk_stop_queue start
+[  142.357878] [mmc]:mmc_queue_suspend:354 mmc0: blk_stop_queue start
+[  142.446173] vi vi: suspend status: 0
+[  142.446340] isp isp: suspend status: 0
+[  142.446502] gr2d gr2d: suspend status: 0
+[  142.446772] dsi dsi: suspend status: 0
+[  142.447867] gr3d gr3d: suspend status: 0
+[  142.448038] mpe mpe: suspend status: 0
+[  142.448532] al3010_suspend+
+[  142.449061] al3010_suspend-
+[  142.449998] smb347_suspend+
+[  142.450141] smb347_suspend-
+[  142.450451] tegradc tegradc.1: suspend
+[  142.555912] tegradc tegradc.0: suspend
+[  142.556111] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  142.557152] host1x host1x: suspend status: 0
+[  142.557316] gpio-keys gpio-keys.0: suspending
+[  142.557580] Wake24 for irq=392
+[  142.557842] Enabling wake24
+[  142.557981] gpio-keys gpio-keys.0: suspended
+[  142.558249] [mmc]:sdhci_pltfm_suspend:203 mmc1: ++
+[  142.558553] [mmc]:sdhci_pltfm_suspend:218 mmc1: --
+[  142.558705] [mmc]:sdhci_pltfm_suspend:203 mmc0: ++
+[  142.561320] [mmc]:tegra_sdhci_suspend:847 mmc0: pull up data pin
+[  142.561478] [mmc]:sdhci_pltfm_suspend:218 mmc0: --
+[  142.571959] rt5640_suspend+
+[  142.597092] rt5640_suspend-
+[  142.598924] android_work: did not send uevent (0 0   (null))
+[  142.599367] tegra_otg_suspend(): tegra_otg->intr_reg_data = 0X440005C5
+[  142.599677] PM: suspend of devices complete after 242.540 msecs
+[  142.600988] power_suspend_late return 0
+[  142.601140] PM: late suspend of devices complete after 1.200 msecs
+[  142.601397] Disabling non-boot CPUs ...
+[  142.612487] stop_machine_cpu_stop smp=1
+[  142.612503] stop_machine_cpu_stop smp=2
+[  142.612519] stop_machine_cpu_stop smp=3
+[  142.612533] stop_machine_cpu_stop smp=0
+[  142.613958] CPU1: shutdown
+[  142.626290] stop_machine_cpu_stop smp=0
+[  142.626307] stop_machine_cpu_stop smp=3
+[  142.626323] stop_machine_cpu_stop smp=2
+[  142.627544] CPU2: shutdown
+[  142.639462] stop_machine_cpu_stop smp=0
+[  142.639479] stop_machine_cpu_stop smp=3
+[  142.640539] CPU3: shutdown
+[  142.641877] vfp_pm_suspend: saving vfp state
+[  142.642702] Wake[31-0] level=0x2000092
+[  142.642840] Tegra3 wake[63-32] level=0x0
+[  142.643089] Wake[31-0] enable=0x13041000
+[  142.643226] Tegra3 wake[63-32] enable=0x100
+[  142.643476] Entering suspend state LP0
+[  142.656921] Tegra: switched to LP cluster
+[  142.667004] partition 3d0 is left on before suspend
+[  142.667004] partition vde is left on before suspend
+[  142.667004] partition heg is left on before suspend
+[  142.667004] partition 3d1 is left on before suspend
+[  142.729969] Tegra: switched to G cluster
+[  142.730113] Exited suspend state LP0
+[  142.730343]  legacy wake status=0x40000
+[  142.730472] Resume caused by WAKE18, max77663
+[  142.730602]  tegra3 wake status=0x0
+[  142.730951] Suspended for 12.505 seconds
+[  142.731415] Enabling non-boot CPUs ...
+[  142.794989] CPU1: Booted secondary processor
+[  142.796161] CPU1 is up
+[  142.804764] Switched to NOHz mode on CPU #1
+[  142.844974] CPU2: Booted secondary processor
+[  142.846182] CPU2 is up
+[  142.854762] Switched to NOHz mode on CPU #2
+[  142.894953] CPU3: Booted secondary processor
+[  142.896114] CPU3 is up
+[  142.901869] PM: early resume of devices complete after 5.612 msecs
+[  142.902216] hall_sensor: [lid_interrupt_handler] LID interrupt handler...gpio: 1..
+[  142.904766] Switched to NOHz mode on CPU #3
+[  142.906524] wakeup wake lock: usb_config_wake_lock
+[  142.906821] cable_detection_work_handler(): vbus_active = 1 and is_active = 0
+[  142.906965] The USB cable is disconnected.
+[  142.907229] elan-ktf3k 1-0010: Update power source to 0
+[  142.907636] rt5640_resume+
+[  142.908007] [mmc]:sdhci_pltfm_resume:229 mmc0: ++
+[  142.908326] [mmc]:tegra_sdhci_resume:908 mmc0: disable data pin
+[  142.908486] [mmc]:sdhci_pltfm_resume:242 mmc0: --
+[  142.908743] [mmc]:sdhci_pltfm_resume:229 mmc1: ++
+[  142.911015] [mmc]:sdhci_pltfm_resume:242 mmc1: --
+[  142.911281] gpio-keys gpio-keys.0: resuming
+[  142.911428] Wake24 for irq=392
+[  142.911689] Disabling wake24
+[  142.911839] gpio-keys gpio-keys.0: resumed
+[  142.911986] host1x host1x: resuming
+[  142.912293] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  142.912558] tegradc tegradc.0: resume
+[  142.912701] tegradc tegradc.1: resume
+[  142.912948] smb347_resume+
+[  142.913201] INOK=H
+[  142.913338] ========================================================
+[  142.913478] battery_callback  usb_cable_state = 0
+[  142.913727] ========================================================
+[  142.913864] battery_callback cable_wake_lock 5 sec...
+[  142.913872]  
+[  142.914398] elan-ktf3k 1-0010: Update power source to 0
+[  142.914918] smb347_resume-
+[  142.916467] al3010_resume+
+[  142.920840] al3010_resume-
+[  142.921110] mpe mpe: resuming
+[  142.921258] gr3d gr3d: resuming
+[  142.921519] dsi dsi: resuming
+[  142.921664] gr2d gr2d: resuming
+[  142.921808] isp isp: resuming
+[  142.921951] vi vi: resuming
+[  142.931562] rt5640_resume-
+[  142.954810] hall_sensor: [lid_report_function] SW_LID report value = 1
+[  142.969786] [mmc]:mmc_queue_resume:375 mmc0: blk_start_queue start
+[  142.970067] [mmc]:mmc_queue_resume:375 mmc0: blk_start_queue start
+[  142.970337] [mmc]:mmc_queue_resume:375 mmc0: blk_start_queue start
+[  142.970821] PM: resume of devices complete after 68.174 msecs
+[  142.984827] tegra_otg_resume(): tegra_otg->intr_reg_data = 0X440005C5
+[  142.985013] tegra-otg tegra-otg: UNDEFINED --> SUSPEND
+[  142.985304] PM: Finishing wakeup.
+[  142.985445] Restarting tasks ... done.
+[  142.995990] Tegra cpufreq resume: restoring frequency to 340000 kHz
+[  143.008280] bq27541_get_capacity = 42% ret= 46
+[  143.009550] Tegra emc resume: disabled bridge.emc
+[  143.009921] suspend: exit suspend, ret = 0 (2017-10-13 20:03:57.527098001 UTC)
+[  143.010809] bq27541_get_psp voltage_now= 3816000 uV
+[  143.011910] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  143.012895] bq27541_get_psp status: Not charging ret= 0x0100
+[  143.057877] al3010 debug log : light sensor chip is resumed
+[  143.115833] request_suspend_state: wakeup (3->0) at 143031090002 (2017-10-13 20:03:57.633009001 UTC)
+[  143.115993] late_resume: call handlers
+[  143.116076] al3010_late_resume+
+[  143.121711] al3010 debug log : light sensor chip is resumed
+[  143.121783] al3010_late_resume-
+[  143.121848] Disp: diff_msec= 13264
+[  143.372988] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  143.373066] grouper_panel_late_resumed
+[  143.373134] start_drawing_late_resumed
+[  143.373271] [ektf3k]:[elan] elan_ktf3k_ts_resume: enter
+[  143.384378] [ektf3k]:[elan] dump repsponse: 58
+[  143.384552] late_resume: done
+[  143.406129] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  143.422790] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  143.439448] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  143.456216] tegra_pwm tegra_pwm.0: pwm_disable called on disabled PWM
+[  143.762577] tegra-otg tegra-otg: SUSPEND --> PERIPHERAL
+[  143.762774] fsl_vbus_session(): vbus_active = 0 and  is_active = 1
+[  144.344918] INOK=L
+[  144.345452] smb347_charger: [cable_type_detect] Reg39 : 0x10
+[  144.345945] smb347_charger: [cable_type_detect] Reg3F : 0x83
+[  144.346038] smb347_charger: [cable_type_detect] USB_IN
+[  144.346379] smb347_charger: [cable_type_detect] Reg3E : 0x0e
+[  144.346474] Unkown Plug In Cable type !
+[  144.346665] ========================================================
+[  144.346798] battery_callback  usb_cable_state = 1
+[  144.347008] ========================================================
+[  144.347152] battery_callback cable_wake_lock 5 sec...
+[  144.347156]  
+[  144.355184] bq27541_get_capacity = 42% ret= 46
+[  144.355977] bq27541_get_psp voltage_now= 3770000 uV
+[  144.358067] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  144.363200] bq27541_get_psp status: Charging ret= 0x0101
+[  144.754785] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[  144.754864] The USB cable is connected
+[  144.754934] elan-ktf3k 1-0010: Update power source to 1
+[  146.345405] bq27541_get_psp status: Charging ret= 0x0101
+[  146.346052] bq27541_get_psp voltage_now= 3764000 uV
+[  146.346733] bq27541_get_capacity = 42% ret= 46
+[  146.347377] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  146.348892] bq27541_get_capacity = 42% ret= 46
+[  146.349584] bq27541_get_psp voltage_now= 3764000 uV
+[  146.350263] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  146.350990] bq27541_get_psp status: Charging ret= 0x0101
+[  149.084986] mmc0: Starting deferred resume
+[  149.157296] [mmc]:mmc_read_ext_csd:285 ext_csd.sectors 0x3b78000 prod_name MMC32G BOOT_MULTI 0x10
+[  149.159249] mmc0: Deferred resume completed
+[  159.419684] tegra-otg tegra-otg: PERIPHERAL --> SUSPEND
+[  159.419763] fsl_vbus_session(): vbus_active = 1 and  is_active = 0
+[  159.419959] android_work: did not send uevent (0 0   (null))
+[  159.420026] tegra-otg tegra-otg: SUSPEND --> SUSPEND
+[  159.420143] cable_detection_work_handler(): vbus_active = 1 and is_active = 0
+[  159.420206] The USB cable is disconnected.
+[  159.420323] elan-ktf3k 1-0010: Update power source to 0
+[  159.994771] INOK=H
+[  159.994840] ========================================================
+[  159.994956] battery_callback  usb_cable_state = 0
+[  159.995018] ========================================================
+[  159.995133] battery_callback cable_wake_lock 5 sec...
+[  159.995136]  
+[  159.995328] elan-ktf3k 1-0010: Update power source to 0
+[  160.005177] bq27541_get_capacity = 42% ret= 46
+[  160.005887] bq27541_get_psp voltage_now= 3764000 uV
+[  160.006628] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  160.007322] bq27541_get_psp status: Discharging ret= 0x0101
+[  161.960373] tegra-otg tegra-otg: SUSPEND --> PERIPHERAL
+[  161.960451] fsl_vbus_session(): vbus_active = 0 and  is_active = 1
+[  161.995400] bq27541_get_psp status: Discharging ret= 0x0101
+[  161.996046] bq27541_get_psp voltage_now= 3727000 uV
+[  161.996730] bq27541_get_capacity = 42% ret= 46
+[  161.997374] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  161.998877] bq27541_get_capacity = 42% ret= 46
+[  162.014778] bq27541_get_psp voltage_now= 3727000 uV
+[  162.015483] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  162.016220] bq27541_get_psp status: Discharging ret= 0x0101
+[  162.544760] INOK=L
+[  162.545073] smb347_charger: [cable_type_detect] Reg39 : 0x10
+[  162.545315] smb347_charger: [cable_type_detect] Reg3F : 0x83
+[  162.545431] smb347_charger: [cable_type_detect] USB_IN
+[  162.545669] smb347_charger: [cable_type_detect] Reg3E : 0x0e
+[  162.545733] Unkown Plug In Cable type !
+[  162.545850] ========================================================
+[  162.545915] battery_callback  usb_cable_state = 1
+[  162.546028] ========================================================
+[  162.546091] battery_callback cable_wake_lock 5 sec...
+[  162.546095]  
+[  162.547469] bq27541_get_capacity = 42% ret= 46
+[  162.548216] bq27541_get_psp voltage_now= 3727000 uV
+[  162.548949] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  162.549630] bq27541_get_psp status: Charging ret= 0x0101
+[  162.954786] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[  162.954862] The USB cable is connected
+[  162.954982] elan-ktf3k 1-0010: Update power source to 1
+[  164.545400] bq27541_get_psp status: Charging ret= 0x0101
+[  164.546102] bq27541_get_psp voltage_now= 3764000 uV
+[  164.546747] bq27541_get_capacity = 42% ret= 46
+[  164.547394] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  164.548700] bq27541_get_capacity = 42% ret= 46
+[  164.549389] bq27541_get_psp voltage_now= 3764000 uV
+[  164.550128] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  164.555186] bq27541_get_psp status: Charging ret= 0x0101
+[  165.538050] tegra-otg tegra-otg: PERIPHERAL --> SUSPEND
+[  165.538130] fsl_vbus_session(): vbus_active = 1 and  is_active = 0
+[  165.538323] android_work: did not send uevent (0 0   (null))
+[  165.538391] cable_detection_work_handler(): vbus_active = 1 and is_active = 0
+[  165.538507] The USB cable is disconnected.
+[  165.538573] elan-ktf3k 1-0010: Update power source to 0
+[  166.114763] INOK=H
+[  166.114836] ========================================================
+[  166.114900] battery_callback  usb_cable_state = 0
+[  166.115014] ========================================================
+[  166.115077] battery_callback cable_wake_lock 5 sec...
+[  166.115081]  
+[  166.115268] elan-ktf3k 1-0010: Update power source to 0
+[  166.134778] bq27541_get_capacity = 42% ret= 46
+[  166.135634] bq27541_get_psp voltage_now= 3766000 uV
+[  166.136320] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  166.137051] bq27541_get_psp status: Discharging ret= 0x0101
+[  168.115401] bq27541_get_psp status: Discharging ret= 0x0101
+[  168.116109] bq27541_get_psp voltage_now= 3723000 uV
+[  168.116747] bq27541_get_capacity = 42% ret= 46
+[  168.117391] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  168.118880] bq27541_get_capacity = 42% ret= 46
+[  168.119577] bq27541_get_psp voltage_now= 3723000 uV
+[  168.120321] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  168.121015] bq27541_get_psp status: Discharging ret= 0x0101
+[  172.286669] tegra-otg tegra-otg: SUSPEND --> PERIPHERAL
+[  172.286748] fsl_vbus_session(): vbus_active = 0 and  is_active = 1
+[  172.874769] INOK=L
+[  172.875026] smb347_charger: [cable_type_detect] Reg39 : 0x10
+[  172.875269] smb347_charger: [cable_type_detect] Reg3F : 0x83
+[  172.875384] smb347_charger: [cable_type_detect] USB_IN
+[  172.875631] smb347_charger: [cable_type_detect] Reg3E : 0x0e
+[  172.875749] Unkown Plug In Cable type !
+[  172.875814] ========================================================
+[  172.875928] battery_callback  usb_cable_state = 1
+[  172.875990] ========================================================
+[  172.876103] battery_callback cable_wake_lock 5 sec...
+[  172.876106]  
+[  172.877515] bq27541_get_capacity = 42% ret= 46
+[  172.878319] bq27541_get_psp voltage_now= 3726000 uV
+[  172.879007] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  172.879696] bq27541_get_psp status: Charging ret= 0x0101
+[  173.284798] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[  173.284876] The USB cable is connected
+[  173.284994] elan-ktf3k 1-0010: Update power source to 1
+[  174.875400] bq27541_get_psp status: Charging ret= 0x0101
+[  174.876098] bq27541_get_psp voltage_now= 3759000 uV
+[  174.876743] bq27541_get_capacity = 42% ret= 46
+[  174.877428] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  174.885163] bq27541_get_capacity = 42% ret= 46
+[  174.885865] bq27541_get_psp voltage_now= 3759000 uV
+[  174.886602] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  174.887288] bq27541_get_psp status: Charging ret= 0x0101
+[  187.808348] android_work: did not send uevent (0 0   (null))
+[  187.877361] android_work: sent uevent USB_STATE=CONNECTED
+[  189.311355] tegra-i2c tegra-i2c.2: I2c error status 0x00000008
+[  189.311447] tegra-i2c tegra-i2c.2: no acknowledge from address 0x28
+[  189.311582] tegra-i2c tegra-i2c.2: Packet status 0x00010009
+[  189.312739] pn544_dev_write : i2c_master_send returned -121
+[  189.433034] set_config : usb set config wake lock ++
+[  189.433121] android_usb gadget: high speed config #1: android
+[  189.433373] android_work: sent uevent USB_STATE=CONFIGURED
+[  189.531794] mtp_open
+[  191.314635] tegra-i2c tegra-i2c.2: I2c error status 0x00000008
+[  191.314999] tegra-i2c tegra-i2c.2: no acknowledge from address 0x28
+[  191.315161] tegra-i2c tegra-i2c.2: Packet status 0x00010009
+[  191.316581] pn544_dev_write : i2c_master_send returned -121
+[  193.314951] tegra-i2c tegra-i2c.2: I2c error status 0x00000008
+[  193.315077] tegra-i2c tegra-i2c.2: no acknowledge from address 0x28
+[  193.315195] tegra-i2c tegra-i2c.2: Packet status 0x00010009
+[  193.316310] pn544_dev_write : i2c_master_send returned -121
+[  202.915320] tegra-otg tegra-otg: PERIPHERAL --> SUSPEND
+[  202.915403] fsl_vbus_session(): vbus_active = 1 and  is_active = 0
+[  202.915555] reset_config : usb reset config wake unlock --
+[  202.915763] android_work: sent uevent USB_STATE=DISCONNECTED
+[  202.915890] tegra-otg tegra-otg: SUSPEND --> SUSPEND
+[  202.915969] adb_release
+[  202.915977] adb_release
+[  202.916096] adb_open
+[  202.916106] adb_open(adbd)
+[  202.916114] mtp_bind_config
+[  202.916170] adb_bind_config
+[  202.916703] cable_detection_work_handler(): vbus_active = 1 and is_active = 0
+[  202.916836] The USB cable is disconnected.
+[  202.916905] elan-ktf3k 1-0010: Update power source to 0
+[  202.934772] mtp_release
+[  203.494776] INOK=H
+[  203.494849] ========================================================
+[  203.494961] battery_callback  usb_cable_state = 0
+[  203.495021] ========================================================
+[  203.495137] battery_callback cable_wake_lock 5 sec...
+[  203.495141]  
+[  203.495282] elan-ktf3k 1-0010: Update power source to 0
+[  203.497131] bq27541_get_capacity = 42% ret= 46
+[  203.497829] bq27541_get_psp voltage_now= 3764000 uV
+[  203.498521] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  203.499264] bq27541_get_psp status: Discharging ret= 0x0101
+[  205.495465] bq27541_get_psp status: Discharging ret= 0x0101
+[  205.496189] bq27541_get_psp voltage_now= 3721000 uV
+[  205.496855] bq27541_get_capacity = 42% ret= 46
+[  205.497579] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  205.505205] bq27541_get_capacity = 42% ret= 46
+[  205.506036] bq27541_get_psp voltage_now= 3721000 uV
+[  205.506778] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  205.507510] bq27541_get_psp status: Discharging ret= 0x0101
+[  210.589323] tegra-otg tegra-otg: SUSPEND --> PERIPHERAL
+[  210.589402] fsl_vbus_session(): vbus_active = 0 and  is_active = 1
+[  210.715755] android_work: did not send uevent (0 0   (null))
+[  210.783406] android_work: sent uevent USB_STATE=CONNECTED
+[  211.194798] INOK=L
+[  211.195084] smb347_charger: [cable_type_detect] Reg39 : 0x10
+[  211.195385] smb347_charger: [cable_type_detect] Reg3F : 0xc0
+[  211.195451] smb347_charger: [cable_type_detect] USB_IN
+[  211.195761] smb347_charger: [cable_type_detect] Reg3E : 0x0c
+[  211.195829] Cable: SDP
+[  211.195891] ========================================================
+[  211.196005] battery_callback  usb_cable_state = 1
+[  211.196067] ========================================================
+[  211.196180] battery_callback cable_wake_lock 5 sec...
+[  211.196184]  
+[  211.196320] elan-ktf3k 1-0010: Update power source to 1
+[  211.197972] bq27541_get_capacity = 42% ret= 46
+[  211.200332] bq27541_get_psp voltage_now= 3717000 uV
+[  211.204436] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  211.205241] bq27541_get_psp status: Charging ret= 0x0101
+[  211.584775] cable_detection_work_handler(): vbus_active = 0 and is_active = 1
+[  211.584852] The USB cable is connected
+[  211.584974] elan-ktf3k 1-0010: Update power source to 1
+[  212.316077] set_config : usb set config wake lock ++
+[  212.316156] android_usb gadget: high speed config #1: android
+[  212.316410] android_work: sent uevent USB_STATE=CONFIGURED
+[  212.377159] mtp_open
+[  213.195412] bq27541_get_psp status: Charging ret= 0x0101
+[  213.196062] bq27541_get_psp voltage_now= 3735000 uV
+[  213.196743] bq27541_get_capacity = 42% ret= 46
+[  213.197387] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  213.198832] bq27541_get_capacity = 42% ret= 46
+[  213.199576] bq27541_get_psp voltage_now= 3735000 uV
+[  213.200268] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  213.204787] bq27541_get_psp status: Charging ret= 0x0101
+[  273.205385] bq27541_get_psp status: Charging ret= 0x0101
+[  273.206084] bq27541_get_psp voltage_now= 3732000 uV
+[  273.206725] bq27541_get_capacity = 42% ret= 46
+[  273.207369] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  273.208732] bq27541_get_capacity = 42% ret= 46
+[  273.209417] bq27541_get_psp voltage_now= 3732000 uV
+[  273.210139] bq27541_get_psp temperature= 340 (0.1¢XC)
+[  273.210810] bq27541_get_psp status: Charging ret= 0x0101
+[  295.977336] beginning
+[  295.977518] Unable to handle kernel NULL pointer dereference at virtual address 00000000
+[  295.977587] pgd = d5974000
+[  295.977700] [00000000] *pgd=8c0dd831, *pte=00000000, *ppte=00000000
+[  295.977940] Internal error: Oops: 817 [#1] PREEMPT SMP
+[  295.978055] Modules linked in:
+[  295.978179] CPU: 3    Not tainted  (3.1.10-g622a4a0-dirty #85)
+[  295.978249] PC is at __memzero+0x24/0x80
+[  295.978364] LR is at 0x0
+[  295.978428] pc : [<c023d464>]    lr : [<00000000>]    psr: 20000013
+[  295.978431] sp : cc369eac  ip : 00000000  fp : be9f8aec
+[  295.978603] r10: d3db3640  r9 : d3db31e0  r8 : 00000002
+[  295.978717] r7 : cc368000  r6 : 00000001  r5 : d6ad68a0  r4 : 00000000
+[  295.978781] r3 : 00000000  r2 : 00000000  r1 : 00000008  r0 : 00000000
+[  295.978898] Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+[  295.978962] Control: 10c5387d  Table: 9597404a  DAC: 00000015
+[  295.979077] 
+[  295.979078] PC: 0xc023d3e4:
+[  295.979195] d3e4  e3120004 14801004 e3120002 14c01001 14c01001 e3120001 14c01001 e1a0f00e
+[  295.979836] d404  e320f000 e320f000 e320f000 e320f000 e320f000 e320f000 e320f000 00000000
+[  295.980477] d424  e2511004 ba00001d e3530002 b4c02001 d4c02001 e4c02001 e0811003 e3a02000
+[  295.981065] d444  e2103003 1afffff5 e3510010 ba00000f e52de004 e1a0c002 e1a0e002 e2511040
+[  295.981699] d464  a8a0500c a8a0500c a8a0500c a8a0500c cafffff9 08bd8000 e3110020 18a0500c
+[  295.982335] d484  18a0500c e3110010 18a0500c e49de004 e3110008 18a0000c e3110004 14802004
+[  295.982968] d4a4  e3110002 14c02001 14c02001 e3110001 14c02001 e1a0f00e e320f000 e0010192
+[  295.983552] d4c4  e0211390 e1a0c820 e1a03822 e1c0080c e1c22803 e0211c93 e0030390 e0000092
+[  295.984142] 
+[  295.984144] SP: 0xcc369e2c:
+[  295.984262] 9e2c  00000044 c091f500 c091f500 00000000 00000000 c091d1d8 c091f500 00000000
+[  295.984908] 9e4c  c023d464 20000013 ffffffff cc369e94 c000e3d8 00000000 00000008 00000000
+[  295.985549] 9e6c  00000000 00000000 d6ad68a0 00000001 cc368000 00000002 d3db31e0 d3db3640
+[  295.986191] 9e8c  be9f8aec 00000000 cc369eac 00000000 c023d464 20000013 ffffffff 0000001f
+[  295.986777] 9eac  c0083da8 0000066d d6ad68a0 00000001 00000002 cc369f5c d3db31e0 d3db3640
+[  295.987359] 9ecc  c023a678 10624dd3 3b9aca00 00000003 cc369f06 0000000f 00000024 c09e4cae
+[  295.987997] 9eec  00000044 c09e4bf0 00000003 cc368000 60000013 00000000 205b9f30 35393220
+[  295.988582] 9f0c  3737392e 5d363333 00000020 d6184b68 d781be40 00000000 00000001 c02b2f50
+[  295.989220] 
+[  295.989222] R5: 0xd6ad6820:
+[  295.989392] 6820  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  295.989979] 6840  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  295.990564] 6860  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  295.991200] 6880  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  295.991790] 68a0  d6be7620 00000000 00000000 d5e8dcf4 00000000 d5e8dce8 00000000 00000000
+[  295.992427] 68c0  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  295.993064] 68e0  dc9a9000 dc9ab000 00000005 d6ad692d 00000000 00000000 d6ad6938 d166c378
+[  295.993698] 6900  00000000 00000000 d1588e40 00000000 00000000 00000000 00000000 00000000
+[  295.994280] 
+[  295.994282] R7: 0xcc367f80:
+[  295.994450] 7f80  50011452 7c011452 60011452 70011452 97ffd841 7d011452 78011452 54011452
+[  295.995047] 7fa0  54111452 54211452 54311452 54411452 54511452 54611452 54711452 00000000
+[  295.995687] 7fc0  978ad811 978adc11 978ae811 978aec11 978af811 978afc11 978b0811 978b0c11
+[  295.996324] 7fe0  978b1811 978b1c11 978b2811 978b2c11 978b3811 978b3c11 97ffe821 97ffec21
+[  295.996951] 8000  00000000 00000002 00000000 d14ef080 c09866d0 00000003 00000015 d14ef080
+[  295.997537] 8020  c19b4500 d6b33dc0 cc368000 c091d1d8 d170fa60 00000003 cc369ebc cc369e08
+[  295.998176] 8040  c0656fc0 00000000 00000000 00000000 00000000 00000000 01010000 00000000
+[  295.998814] 8060  400fb418 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  295.999450] 
+[  295.999451] R9: 0xd3db3160:
+[  295.999568] 3160  00000052 00000053 00000054 00000055 0000000f 0000003f 00000058 00000009
+[  296.000200] 3180  0000005a 00000058 00000038 0000005d 0000004c 0000005f 00000060 00000061
+[  296.000780] 31a0  00000062 0000005d 00000064 00000065 00000066 00000067 00000068 00000069
+[  296.001415] 31c0  0000006a 0000006b 0000006c 0000006d 0000006e 0000006f 00000070 ffffffff
+[  296.002053] 31e0  00000000 17d78400 00000000 00013156 00000003 00000003 cc3cdeb4 00000001
+[  296.002685] 3200  00000000 00000000 d599d1fc d599d1fc 00000000 d6008740 00000000 00000000
+[  296.003272] 3220  d3e07f40 d59e09e5 00000000 00000000 00000001 00000000 00000000 00000000
+[  296.003904] 3240  d1588d00 d706b620 c0a17d7c d5b3e22c d3ca2634 d3ca2620 d7bf1170 00000001
+[  296.004493] 
+[  296.004495] R10: 0xd3db35c0:
+[  296.004614] 35c0  746f6f72 00007366 00000002 00000000 00000000 00000000 00000000 00000000
+[  296.005254] 35e0  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  296.005893] 3600  00000000 00000000 d1685d70 d1685d70 00000000 00000000 00000000 00000000
+[  296.006475] 3620  d3db3620 d3db3620 00000000 637acec8 00000000 00000000 00000000 00000000
+[  296.007060] 3640  00000000 0bebc200 2f6e6962 6b6e696c 00007265 00000003 cc3cdeb4 00000001
+[  296.007697] 3660  66706d74 00200073 00000000 00002052 00000000 00000003 d7bf1170 00000001
+[  296.008286] 3680  d5b3e460 d3e8db20 c0a17d7c d59a7bac d3f39394 d3f39380 00000000 00000000
+[  296.008922] 36a0  7665642f 7375662f d7af0065 00100100 00200200 d3f39c80 00000000 00000000
+[  296.009558] Process reserve (pid: 1652, stack limit = 0xcc3682f0)
+[  296.009623] Stack: (0xcc369eac to 0xcc36a000)
+[  296.009739] 9ea0:                            c0083da8 0000066d d6ad68a0 00000001 00000002
+[  296.009858] 9ec0: cc369f5c d3db31e0 d3db3640 c023a678 10624dd3 3b9aca00 00000003 cc369f06
+[  296.009927] 9ee0: 0000000f 00000024 c09e4cae 00000044 c09e4bf0 00000003 cc368000 60000013
+[  296.010046] 9f00: 00000000 205b9f30 35393220 3737392e 5d363333 00000020 d6184b68 d781be40
+[  296.010164] 9f20: 00000000 00000001 c02b2f50 00000000 00000000 00000000 00000006 00184b68
+[  296.010231] 9f40: 00000014 be9f8aa4 c098cd68 00000001 be9f8a9c c000ea84 0000066d 00000000
+[  296.010349] 9f60: be9f8aec d6be77f8 be9f8aa4 cc368000 00000001 be9f8a9c d3db3640 0000066d
+[  296.010467] 9f80: d3db31e0 c023abfc 00000013 00000001 be9f8a9c 0000017b c000ea84 cc368000
+[  296.010584] 9fa0: 00000000 c000e900 00000013 00000001 0000066d be9f8aa4 be9f8a9c 00000001
+[  296.010651] 9fc0: 00000013 00000001 be9f8a9c 0000017b 00000000 00000000 00000000 be9f8aec
+[  296.010770] 9fe0: be9f8a70 be9f8a60 00008ddf 40114e30 60000010 0000066d 024d2cd6 01130100
+[  296.010894] Code: e52de004 e1a0c002 e1a0e002 e2511040 (a8a0500c) 
+[  296.010992] ---[ end trace e23ecf7401c1247f ]---
+[  296.011111] Kernel panic - not syncing: Fatal exception
+[  296.011194] [<c0014d4c>] (unwind_backtrace+0x0/0x130) from [<c0652194>] (panic+0x78/0x1a4)
+[  296.011326] [<c0652194>] (panic+0x78/0x1a4) from [<c001240c>] (die+0x21c/0x294)
+[  296.011449] [<c001240c>] (die+0x21c/0x294) from [<c0651cd8>] (__do_kernel_fault.part.3+0x54/0x74)
+[  296.011523] [<c0651cd8>] (__do_kernel_fault.part.3+0x54/0x74) from [<c001909c>] (do_page_fault+0x2c4/0x324)
+[  296.011645] [<c001909c>] (do_page_fault+0x2c4/0x324) from [<c0008524>] (do_DataAbort+0x34/0x9c)
+[  296.011766] [<c0008524>] (do_DataAbort+0x34/0x9c) from [<c000e3d8>] (__dabt_svc+0x38/0x60)
+[  296.011881] Exception stack(0xcc369e60 to 0xcc369ea8)
+[  296.011947] 9e60: 00000000 00000008 00000000 00000000 00000000 d6ad68a0 00000001 cc368000
+[  296.012065] 9e80: 00000002 d3db31e0 d3db3640 be9f8aec 00000000 cc369eac 00000000 c023d464
+[  296.012179] 9ea0: 20000013 ffffffff
+[  296.012246] [<c000e3d8>] (__dabt_svc+0x38/0x60) from [<c023d464>] (__memzero+0x24/0x80)
+[  296.012365] CPU0: stopping
+[  296.012439] [<c0014d4c>] (unwind_backtrace+0x0/0x130) from [<c00084c0>] (do_IPI+0x170/0x1a0)
+[  296.012560] [<c00084c0>] (do_IPI+0x170/0x1a0) from [<c000e654>] (__irq_usr+0x34/0xc0)
+[  296.012626] Exception stack(0xd6603fb0 to 0xd6603ff8)
+[  296.012740] 3fa0:                                     4084504c 400da564 0000ffff 48500041
+[  296.012860] 3fc0: 4084504a 65e1da34 00000004 4084504a 4080ae79 6351f008 00042a49 6351f008
+[  296.012927] 3fe0: 6164ffff 65e1da00 400d9171 4010fc08 20000010 ffffffff
+[  296.013046] CPU1: stopping
+[  296.013120] [<c0014d4c>] (unwind_backtrace+0x0/0x130) from [<c00084c0>] (do_IPI+0x170/0x1a0)
+[  296.013242] [<c00084c0>] (do_IPI+0x170/0x1a0) from [<c000e654>] (__irq_usr+0x34/0xc0)
+[  296.013358] Exception stack(0xd174ffb0 to 0xd174fff8)
+[  296.013423] ffa0:                                     00000800 00014000 00000002 00000000
+[  296.013542] ffc0: 0000a000 00000000 00000000 0001c000 00008000 a0000000 0000001c 00000000
+[  296.013608] ffe0: 00000064 65e1d288 40132b64 4012fe6c 40000010 ffffffff
+[  296.013725] CPU2: stopping
+[  296.013799] [<c0014d4c>] (unwind_backtrace+0x0/0x130) from [<c00084c0>] (do_IPI+0x170/0x1a0)
+[  296.013921] [<c00084c0>] (do_IPI+0x170/0x1a0) from [<c000e438>] (__irq_svc+0x38/0xd0)
+[  296.014037] Exception stack(0xd1555d90 to 0xd1555dd8)
+[  296.014102] 5d80:                                     c09bcc0c 20000013 00000001 00000000
+[  296.014221] 5da0: c09bcbe4 00000023 00040000 d1555f24 65e1da34 d1554000 0000002d 00000000
+[  296.014340] 5dc0: c09bcc08 d1555dd8 c0460c40 c0659398 60000013 ffffffff
+[  296.014417] [<c000e438>] (__irq_svc+0x38/0xd0) from [<c0659398>] (_raw_spin_unlock_irqrestore+0x18/0x40)
+[  296.014545] [<c0659398>] (_raw_spin_unlock_irqrestore+0x18/0x40) from [<c0460c40>] (logger_aio_write+0x3ac/0x410)
+[  296.014676] [<c0460c40>] (logger_aio_write+0x3ac/0x410) from [<c0100524>] (do_sync_readv_writev+0x9c/0xdc)
+[  296.014799] [<c0100524>] (do_sync_readv_writev+0x9c/0xdc) from [<c0100790>] (do_readv_writev+0xb0/0x1b0)
+[  296.014921] [<c0100790>] (do_readv_writev+0xb0/0x1b0) from [<c01008e8>] (vfs_writev+0x58/0x74)
+[  296.014990] [<c01008e8>] (vfs_writev+0x58/0x74) from [<c0100a24>] (sys_writev+0x40/0x6c)
+[  296.015112] [<c0100a24>] (sys_writev+0x40/0x6c) from [<c000e900>] (ret_fast_syscall+0x0/0x30)
+[  296.015231] Rebooting in 10 seconds..
+[  306.025366] Restarting Linux version 3.1.10-g622a4a0-dirty (akanjith@ubuntu-VirtualBox) (gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) ) #85 SMP PREEMPT Fri Oct 13 15:53:38 EDT 2017
+[  306.025375] 
+
+No errors detected
